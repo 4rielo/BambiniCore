@@ -4,12 +4,15 @@ plugins {
 }
 
 group = "com.ascarafia"
-version = "0.1.5"
+version = "0.1.6"
 
 kotlin {
 
     jvmToolchain(17)
     jvm()
+
+    iosArm64()
+    iosSimulatorArm64()
 
     /*
     //androidTarget()
