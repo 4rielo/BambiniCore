@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.ascarafia"
-version = "0.1.6"
+version = "0.1.7"
 
 kotlin {
 
@@ -13,6 +13,21 @@ kotlin {
 
     iosArm64()
     iosSimulatorArm64()
+
+    sourceSets {
+
+        commonMain {
+            dependencies {
+                // core puro
+            }
+        }
+
+        commonTest {
+            dependencies {
+                implementation(kotlin("test"))
+            }
+        }
+    }
 
     /*
     //androidTarget()
@@ -29,24 +44,12 @@ kotlin {
     jvm("desktop")
     */
 
-    sourceSets {
-
-        commonMain {
-            dependencies {
-                // core puro
-            }
-        }
-
-        commonTest {
-            dependencies {
-                implementation(kotlin("test"))
-            }
-        }
-    }
 }
 
 publishing {
     publications.withType<MavenPublication>().configureEach {
+        artifactId = "bambinicore"
+/*
         artifactId = when (name) {
             "kotlinMultiplatform" -> "bambinicore"
             "jvm" -> "bambinicore-jvm"
@@ -55,6 +58,8 @@ publishing {
         if (name == "jvm") {
             suppressPomMetadataWarningsFor("jvm")
         }
+
+ */
     }
 
     repositories {
