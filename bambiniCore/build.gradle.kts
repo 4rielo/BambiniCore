@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.ascarafia"
-version = "0.1.1"
+version = "0.1.5"
 
 kotlin {
 
@@ -44,13 +44,20 @@ kotlin {
 
 publishing {
     publications.withType<MavenPublication>().configureEach {
-        artifactId = "bambinicore"
+        artifactId = when (name) {
+            "kotlinMultiplatform" -> "bambinicore"
+            "jvm" -> "bambinicore-jvm"
+            else -> artifactId
+        }
+        if (name == "jvm") {
+            suppressPomMetadataWarningsFor("jvm")
+        }
     }
 
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/ascarafia/BambiniCore")
+            url = uri("https://maven.pkg.github.com/4rielo/BambiniCore")
 
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
