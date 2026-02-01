@@ -43,6 +43,10 @@ kotlin {
 }
 
 publishing {
+    publications.withType<MavenPublication>().configureEach {
+        artifactId = "bambinicore"
+    }
+
     repositories {
         maven {
             name = "GitHubPackages"
