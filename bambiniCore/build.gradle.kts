@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.ascarafia"
-version = "0.1.7"
+version = "0.1.8"
 
 kotlin {
 
@@ -47,21 +47,6 @@ kotlin {
 }
 
 publishing {
-    publications.withType<MavenPublication>().configureEach {
-        artifactId = "bambinicore"
-/*
-        artifactId = when (name) {
-            "kotlinMultiplatform" -> "bambinicore"
-            "jvm" -> "bambinicore-jvm"
-            else -> artifactId
-        }
-        if (name == "jvm") {
-            suppressPomMetadataWarningsFor("jvm")
-        }
-
- */
-    }
-
     repositories {
         maven {
             name = "GitHubPackages"
