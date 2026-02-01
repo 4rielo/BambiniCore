@@ -10,7 +10,6 @@ group = providers.gradleProperty("GROUP").get()
 version = providers.gradleProperty("VERSION_NAME").get()
 
 kotlin {
-
     androidTarget {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_11)
@@ -24,12 +23,26 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
+        val desktopMain by getting
 
-        commonMain {
-            dependencies {
-                // core puro
-                implementation(libs.datastore.preferences.core)
-            }
+        commonMain.dependencies {
+            implementation(project(":bambini-core"))
+            implementation(project(":bambini-data-network"))
+
+            implementation(libs.kotlinx.coroutines.core)
+
+            implementation(libs.ktor.core)
+
+        }
+
+        androidMain.dependencies {
+
+        }
+
+        desktopMain.dependencies {
+        }
+
+        iosMain.dependencies {
         }
 
         commonTest {
@@ -38,22 +51,6 @@ kotlin {
             }
         }
     }
-
-    /*
-    //androidTarget()
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
-        }
-    }
-
-    jvm("desktop")
-    */
-
 }
 
 android {
@@ -79,6 +76,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_11
     }
 }
+
 
 publishing {
     repositories {
