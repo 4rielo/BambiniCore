@@ -1,6 +1,5 @@
 plugins {
     kotlin("multiplatform")
-    //id("com.android.library")
     id("maven-publish")
 }
 
@@ -10,21 +9,28 @@ version = "0.1.0"
 kotlin {
 
     jvmToolchain(17)
+    jvm()
 
+    /*
     //androidTarget()
-    //jvm("desktop")
+    listOf(
+        iosArm64(),
+        iosSimulatorArm64()
+    ).forEach { iosTarget ->
+        iosTarget.binaries.framework {
+            baseName = "ComposeApp"
+            isStatic = true
+        }
+    }
 
-    //iosX64()
-    //iosArm64()
-    //iosSimulatorArm64()
+    jvm("desktop")
+    */
 
     sourceSets {
-        //val desktopMain by getting
 
         commonMain {
             dependencies {
                 // core puro
-                implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.5.0")
             }
         }
 
@@ -33,19 +39,24 @@ kotlin {
                 implementation(kotlin("test"))
             }
         }
-        //androidMain { }
-        //iosMain { }
-        //desktopMain { }
     }
 }
 
-/*
-android {
-    namespace = "com.ascarafia.bambinicore"
-    defaultConfig {
-        compileSdk = 34
-        minSdk = 30
+publishing {
+    publications.withType<MavenPublication>().configureEach {
+        artifactId = "bambinicore"
+    }
+
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/ascarafia/BambiniCore")
+
+            credentials {
+                username = System.getenv("GITHUB_ACTOR")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
     }
 }
 
- */
