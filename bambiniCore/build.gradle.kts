@@ -4,7 +4,7 @@ plugins {
 }
 
 group = "com.ascarafia"
-version = "0.1.1"
+version = "0.1.2"
 
 kotlin {
 
@@ -50,7 +50,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = uri("https://maven.pkg.github.com/ascarafia/BambiniCore")
+            url = uri("https://maven.pkg.github.com/4rielo/BambiniCore")
 
             credentials {
                 username = System.getenv("GITHUB_ACTOR")
