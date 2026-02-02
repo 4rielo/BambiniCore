@@ -6,7 +6,8 @@ plugins {
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
 
     id("maven-publish")
-//    id("com.android.library") /* <- Android Gradle Plugin for libraries */
+
+    alias(libs.plugins.serialization)
 }
 
 group = providers.gradleProperty("GROUP").get()
@@ -45,7 +46,7 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
 
             implementation(libs.ktor.core)
-
+            implementation(libs.kotlinx.serialization.json)
         }
 
         androidMain.dependencies {

@@ -7,6 +7,7 @@ plugins {
 
     id("maven-publish")
 //    id("com.android.library") /* <- Android Gradle Plugin for libraries */
+
 }
 
 group = providers.gradleProperty("GROUP").get()
