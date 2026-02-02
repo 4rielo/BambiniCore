@@ -77,7 +77,6 @@ android {
     }
 }
 
-
 publishing {
     repositories {
         maven {
