@@ -24,21 +24,26 @@ kotlin {
     iosSimulatorArm64()
 
     sourceSets {
+        val desktopMain by getting
 
-        commonMain {
-            dependencies {
+        commonMain.dependencies {
                 // core puro
-            }
         }
 
         androidMain.dependencies {
             implementation(libs.core.ktx)
         }
 
-        commonTest {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        iosMain.dependencies {
+
+        }
+
+        desktopMain.dependencies {
+
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
 }
