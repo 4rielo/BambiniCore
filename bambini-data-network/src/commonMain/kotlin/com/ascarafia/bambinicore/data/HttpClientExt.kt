@@ -1,4 +1,4 @@
-package com.ascarafia.bambini_data_network.data
+package com.ascarafia.bambinicore.data
 
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.error.DataError

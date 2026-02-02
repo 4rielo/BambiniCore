@@ -1,4 +1,4 @@
-package com.ascarafia.bambini_data_network
+package com.ascarafia.bambinicore
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4

@@ -1,6 +1,6 @@
-package com.ascarafia.bambini_data_network.data
+package com.ascarafia.bambinicore.data
 
-import com.ascarafia.bambini_data_network.domain.BambiniRemoteConfig
+import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout

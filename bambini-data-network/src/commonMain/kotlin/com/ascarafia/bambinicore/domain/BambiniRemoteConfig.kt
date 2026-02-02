@@ -1,4 +1,4 @@
-package com.ascarafia.bambini_data_network.domain
+package com.ascarafia.bambinicore.domain
 
 enum class Environment {
     DEV, STAGING, PROD

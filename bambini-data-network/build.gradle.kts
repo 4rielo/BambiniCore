@@ -9,7 +9,7 @@ version = providers.gradleProperty("VERSION_NAME").get()
 
 kotlin {
     androidLibrary {
-        namespace = "com.ascarafia.bambini_data_network"
+        namespace = "com.ascarafia.bambinicore"
         compileSdk = 36
         minSdk = 30
 

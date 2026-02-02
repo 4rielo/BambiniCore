@@ -1,4 +1,4 @@
-package com.ascarafia.bambini_data_network
+package com.ascarafia.bambinicore
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
