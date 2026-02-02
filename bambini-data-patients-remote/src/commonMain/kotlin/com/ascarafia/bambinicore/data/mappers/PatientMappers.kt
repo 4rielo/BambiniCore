@@ -1,6 +1,6 @@
 package com.ascarafia.bambinicore.data.mappers
 
-import com.ascarafia.bambinicore.data.dto.PatientDto
+import com.ascarafia.bambinicore.data.network.dto.PatientDto
 import com.ascarafia.bambinicore.domain.model.Patient
 
 fun PatientDto.toPatient(): Patient {

@@ -33,6 +33,8 @@ kotlin {
 
             api(libs.kotlinx.coroutines.core)
 
+            implementation(libs.datastore.preferences.core)
+
             implementation(libs.ktor.core)
             implementation(libs.ktor.client.content.negotiation)
             implementation(libs.ktor.client.serialization)
@@ -46,6 +48,7 @@ kotlin {
 
         desktopMain.dependencies {
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.datastore.preferences.core)
         }
 
         androidMain.dependencies {
@@ -53,6 +56,7 @@ kotlin {
                 // commonMain by default and will correctly pull the Android artifacts of any KMP
                 // dependencies declared in commonMain.
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.datastore.preferences.android)
         }
 
         iosMain.dependencies {

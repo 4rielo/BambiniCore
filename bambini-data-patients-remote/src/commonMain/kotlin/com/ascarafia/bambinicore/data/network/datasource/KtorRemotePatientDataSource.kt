@@ -2,7 +2,7 @@ package com.ascarafia.bambinicore.data.network.datasource
 
 import com.ascarafia.bambinicore.data.safeCall
 import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
-import com.ascarafia.bambinicore.data.dto.PatientDto
+import com.ascarafia.bambinicore.data.network.dto.PatientDto
 import com.ascarafia.bambinicore.data.mappers.toPatient
 import com.ascarafia.bambinicore.data.mappers.toPatientDto
 import com.ascarafia.bambinicore.domain.datasource.AccountDataSource

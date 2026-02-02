@@ -1,6 +1,6 @@
 package com.ascarafia.bambinicore.data.datasource
 
-import com.ascarafia.bambini.data.settings_manager.SettingsManager
+import com.ascarafia.bambinicore.data.settings_manager.SettingsManager
 import com.ascarafia.bambinicore.domain.datasource.AccountDataSource
 
 

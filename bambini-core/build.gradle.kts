@@ -28,8 +28,11 @@ kotlin {
         commonMain {
             dependencies {
                 // core puro
-                implementation(libs.datastore.preferences.core)
             }
+        }
+
+        androidMain.dependencies {
+            implementation(libs.core.ktx)
         }
 
         commonTest {

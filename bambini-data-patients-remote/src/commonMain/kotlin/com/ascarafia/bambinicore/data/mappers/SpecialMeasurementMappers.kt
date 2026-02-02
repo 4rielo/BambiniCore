@@ -1,7 +1,7 @@
 package com.ascarafia.bambinicore.data.mappers
 
 import com.ascarafia.bambinicore.domain.model.SpecialMeasurement
-import com.ascarafia.bambinicore.data.dto.SpecialMeasurementDto
+import com.ascarafia.bambinicore.data.network.dto.SpecialMeasurementDto
 
 fun SpecialMeasurement.toSpecialMeasurementDto(): SpecialMeasurementDto {
     return SpecialMeasurementDto(

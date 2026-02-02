@@ -1,6 +1,6 @@
 package com.ascarafia.bambinicore.data.mappers
 
-import com.ascarafia.bambinicore.data.dto.ClinicHistoryDto
+import com.ascarafia.bambinicore.data.network.dto.ClinicHistoryDto
 import com.ascarafia.bambinicore.domain.model.ClinicHistory
 
 fun ClinicHistoryDto.toClinicHistory(): ClinicHistory {
