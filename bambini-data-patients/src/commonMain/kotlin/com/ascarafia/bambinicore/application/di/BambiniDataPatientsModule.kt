@@ -8,6 +8,7 @@ import com.ascarafia.bambinicore.data.database.migrations.DatabaseMigrations.MIG
 import com.ascarafia.bambinicore.data.datasources.LocalPatientsDataSourceImpl
 import com.ascarafia.bambinicore.data.network.datasource.KtorRemotePatientDataSource
 import com.ascarafia.bambinicore.data.repositories.PatientRepositoryImpl
+import com.ascarafia.bambinicore.data.settings_manager.SettingsManager
 import com.ascarafia.bambinicore.domain.datasource.LocalPatientsDataSource
 import com.ascarafia.bambinicore.domain.datasource.PatientDataSource
 import com.ascarafia.bambinicore.domain.repositories.PatientRepository
