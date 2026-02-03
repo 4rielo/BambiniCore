@@ -4,6 +4,6 @@ import com.ascarafia.bambinicore.data.database.DatabaseFactory
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
-actual val platformModule: Module = module {
+actual val patientsPlatformModule: Module = module {
     single { DatabaseFactory() }
 }

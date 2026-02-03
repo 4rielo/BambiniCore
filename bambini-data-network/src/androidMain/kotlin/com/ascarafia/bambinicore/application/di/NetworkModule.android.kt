@@ -7,7 +7,7 @@ import org.koin.core.module.Module
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.module
 
-actual val platformModule: Module = module {
+actual val networkPlatformModule: Module = module {
     single<HttpClientEngine> { OkHttp.create() }
     single { SettingsManager(androidApplication()) }
 }

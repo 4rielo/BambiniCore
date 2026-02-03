@@ -8,7 +8,6 @@ import com.ascarafia.bambinicore.data.database.migrations.DatabaseMigrations.MIG
 import com.ascarafia.bambinicore.data.datasources.LocalPatientsDataSourceImpl
 import com.ascarafia.bambinicore.data.network.datasource.KtorRemotePatientDataSource
 import com.ascarafia.bambinicore.data.repositories.PatientRepositoryImpl
-import com.ascarafia.bambinicore.data.settings_manager.SettingsManager
 import com.ascarafia.bambinicore.domain.datasource.LocalPatientsDataSource
 import com.ascarafia.bambinicore.domain.datasource.PatientDataSource
 import com.ascarafia.bambinicore.domain.repositories.PatientRepository
@@ -20,16 +19,16 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val bambiniDataPatientsModule: Module = module {
-    platformModule + repositoryModule + databaseModule + dataSourceModule + bambiniNetworkModule
+    patientsPlatformModule + patientsRepositoryModule + patientsDatabaseModule + patientsDataSourceModule + bambiniNetworkModule
 }
 
-expect val platformModule: Module
+expect val patientsPlatformModule: Module
 
-val repositoryModule: Module = module {
+val patientsRepositoryModule: Module = module {
     singleOf(::PatientRepositoryImpl) bind PatientRepository::class
 }
 
-val databaseModule: Module = module {
+val patientsDatabaseModule: Module = module {
     single {
         get<DatabaseFactory>().create()
             .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
@@ -40,7 +39,7 @@ val databaseModule: Module = module {
     single { get<PatientDatabase>().patientDao }
 }
 
-val dataSourceModule: Module = module {
+val patientsDataSourceModule: Module = module {
     singleOf(::KtorRemotePatientDataSource) bind PatientDataSource::class
     singleOf(::LocalPatientsDataSourceImpl) bind LocalPatientsDataSource::class
 }

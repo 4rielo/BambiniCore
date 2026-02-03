@@ -10,14 +10,14 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val bambiniNetworkModule = module {
-    networkModule + platformModule + accountModule
+    bambiniNetworkHttpClientModule + networkPlatformModule + bambiniNetworkAccountDatasourceModule
 }
 
-expect val platformModule: Module
+expect val networkPlatformModule: Module
 
-val accountModule = module {
+val bambiniNetworkAccountDatasourceModule = module {
     singleOf(::AccountLocalDataSource) bind AccountDataSource::class
 }
-val networkModule = module {
+val bambiniNetworkHttpClientModule = module {
     single { HttpClientFactory.create(get(), get() ) } bind HttpClient::class
 }
