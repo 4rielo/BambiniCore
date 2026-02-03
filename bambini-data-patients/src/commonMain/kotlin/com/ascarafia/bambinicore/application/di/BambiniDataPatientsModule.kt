@@ -18,9 +18,9 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val bambiniDataPatientsModule: Module = module {
-    patientsPlatformModule + patientsRepositoryModule + patientsDatabaseModule + patientsDataSourceModule + bambiniNetworkModule
-}
+val bambiniDataPatientsModule: List<Module> get() = listOf<Module>(
+    patientsPlatformModule, patientsRepositoryModule, patientsDatabaseModule, patientsDataSourceModule
+) + bambiniNetworkModule
 
 expect val patientsPlatformModule: Module
 

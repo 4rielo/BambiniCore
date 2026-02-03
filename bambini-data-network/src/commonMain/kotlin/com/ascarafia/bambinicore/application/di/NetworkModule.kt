@@ -9,9 +9,9 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val bambiniNetworkModule = module {
-    bambiniNetworkHttpClientModule + networkPlatformModule + bambiniNetworkAccountDatasourceModule
-}
+val bambiniNetworkModule: List<Module> get() = listOf(
+    bambiniNetworkHttpClientModule, networkPlatformModule, bambiniNetworkAccountDatasourceModule
+)
 
 expect val networkPlatformModule: Module
 
