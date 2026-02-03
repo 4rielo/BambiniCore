@@ -1,7 +1,12 @@
-package com.ascarafia.bambinicore.domain.model
+package com.ascarafia.bambinicore.data.database
 
-data class Patient(
-    val patientId: String,
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.serialization.Serializable
+
+@Entity
+data class PatientEntity(
+    @PrimaryKey(autoGenerate = false) val patientId: String,
     val idNumber: String,
     val lastUpdated: String,
     val isDeleted: Boolean = false,
@@ -27,27 +32,23 @@ data class Patient(
     val familyHistory: String? = null,
     val allergies: List<String> = emptyList(),
     val medications: List<String> = emptyList(),
-    val clinicHistory: List<ClinicHistory> = emptyList(),
-    val otherStudies: List<ClinicHistory> = emptyList(),
-    val size: List<SpecialMeasurement> = emptyList(),
-    val weight: List<SpecialMeasurement> = emptyList(),
-    val headSize: List<SpecialMeasurement> = emptyList(),
-    val bmi: List<SpecialMeasurement> = emptyList(),
+    val clinicHistory: List<ClinicHistoryEntity> = emptyList(),
+    val otherStudies: List<ClinicHistoryEntity> = emptyList(),
+    val size: List<SpecialMeasurementEntity> = emptyList(),
+    val weight: List<SpecialMeasurementEntity> = emptyList(),
+    val headSize: List<SpecialMeasurementEntity> = emptyList(),
+    val bmi: List<SpecialMeasurementEntity> = emptyList(),
 )
 
-data class ClinicHistory(
+@Serializable
+data class ClinicHistoryEntity(
     val date: String,
     val title: String = "",
     val comment: String = "",
-    val extraMedia: List<String> = emptyList(),                     //url list of images or PDFs for studies, blood tests, etc.
 )
 
-data class SpecialMeasurement(
+@Serializable
+data class SpecialMeasurementEntity(
     val date: String,
     val value: Double
 )
-
-enum class BirthSex {
-    MALE,
-    FEMALE
-}

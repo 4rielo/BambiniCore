@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidKotlinMultiplatformLibrary)
 
+//    alias(libs.plugins.androidApplication)
     id("maven-publish")
 //    id("com.android.library") /* <- Android Gradle Plugin for libraries */
 
@@ -54,6 +55,8 @@ kotlin {
             implementation(libs.ktor.client.serialization)
             implementation(libs.ktor.client.auth)
             implementation(libs.ktor.client.logging)
+
+            api(libs.koin.core)
         }
 
         commonTest.dependencies {
@@ -71,6 +74,8 @@ kotlin {
                 // dependencies declared in commonMain.
             implementation(libs.ktor.client.okhttp)
             implementation(libs.datastore.preferences.android)
+
+            implementation(libs.koin.android)
         }
 
         iosMain.dependencies {

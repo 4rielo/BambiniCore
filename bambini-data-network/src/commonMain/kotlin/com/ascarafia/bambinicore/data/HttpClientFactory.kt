@@ -1,6 +1,7 @@
 package com.ascarafia.bambinicore.data
 
 import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
+import com.ascarafia.bambinicore.domain.Environment
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
@@ -18,7 +19,7 @@ import kotlinx.serialization.json.Json
 object HttpClientFactory {
     fun create(
         engine: HttpClientEngine,
-        config: BambiniRemoteConfig
+        config: BambiniRemoteConfig = BambiniRemoteConfig( mapOf(Environment.DEV to ""), Environment.DEV)
     ): HttpClient {
         return HttpClient(engine) {
             install(ContentNegotiation) {
