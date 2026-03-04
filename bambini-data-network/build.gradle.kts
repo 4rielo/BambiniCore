@@ -8,7 +8,7 @@ plugins {
 //    alias(libs.plugins.androidApplication)
     id("maven-publish")
 //    id("com.android.library") /* <- Android Gradle Plugin for libraries */
-
+    alias(libs.plugins.serialization)
 }
 
 group = providers.gradleProperty("GROUP").get()
