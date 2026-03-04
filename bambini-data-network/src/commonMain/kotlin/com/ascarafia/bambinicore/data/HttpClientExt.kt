@@ -1,7 +1,9 @@
 package com.ascarafia.bambinicore.data
 
 import com.ascarafia.bambinicore.domain.model.Result
+import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import com.ascarafia.bambinicore.domain.model.error.DataError
+import com.ascarafia.bambinicore.domain.model.error.ResponseError
 import io.ktor.client.call.NoTransformationFoundException
 import io.ktor.client.call.body
 import io.ktor.client.network.sockets.SocketTimeoutException
@@ -12,7 +14,7 @@ import kotlinx.coroutines.ensureActive
 
 suspend inline fun <reified T> safeCall(
     execute: () -> HttpResponse
-) : Result<T, DataError.Remote> {
+) : Result<T, BambiniError> {
 
     val response = try {
         execute()
@@ -30,11 +32,11 @@ suspend inline fun <reified T> safeCall(
 
 suspend inline fun <reified T> responseToResult(
     response: HttpResponse
-): Result<T, DataError.Remote> {
+): Result<T, BambiniError> {
     return when(response.status.value) {
         in 200..299 -> {
             try {
-                Result.Success(response.body<T>())
+                responseToResult( response.body<DefaultResponse<T>>() )
             } catch(e: NoTransformationFoundException) {
                 Result.Error(DataError.Remote.SERIALIZATION)
             }
@@ -45,5 +47,20 @@ suspend inline fun <reified T> responseToResult(
         429 -> Result.Error(DataError.Remote.TOO_MANY_REQUESTS)
         in 500..599 -> Result.Error(DataError.Remote.SERVER)
         else -> Result.Error(DataError.Remote.UNKNOWN)
+    }
+}
+
+inline fun <reified T> responseToResult(
+    response: DefaultResponse<T>
+): Result<T, BambiniError> {
+    return when(response.responseCode) {
+        in 200..299 -> {
+            if(response.data != null) {
+                Result.Success(response.data)
+            } else {
+                Result.Error(ResponseError(response.responseCode, response.responseMessage))
+            }
+        }
+        else -> Result.Error(ResponseError(response.responseCode, response.responseMessage))
     }
 }

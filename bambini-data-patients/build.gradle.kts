@@ -53,6 +53,11 @@ kotlin {
             implementation(libs.kotlinx.coroutines.core)
 
             implementation(libs.ktor.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.logging)
+
             implementation(libs.kotlinx.serialization.json)
 
             implementation(libs.androidx.room.runtime)
@@ -71,10 +76,19 @@ kotlin {
         iosMain.dependencies {
         }
 
-        commonTest {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        commonTest.dependencies {
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.turbine)
+            implementation(libs.ktor.client.mock)
+
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.client.serialization)
+            implementation(libs.ktor.client.auth)
+            implementation(libs.ktor.client.logging)
+
+            implementation(libs.kotlinx.serialization.json)
         }
     }
 }

@@ -8,8 +8,8 @@ import com.ascarafia.bambinicore.data.mappers.toPatientDto
 import com.ascarafia.bambinicore.domain.datasource.AccountDataSource
 import com.ascarafia.bambinicore.domain.datasource.PatientDataSource
 import com.ascarafia.bambinicore.domain.model.Patient
-import com.ascarafia.bambinicore.domain.model.error.DataError
 import com.ascarafia.bambinicore.domain.model.Result
+import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
@@ -25,10 +25,10 @@ class KtorRemotePatientDataSource(
 
     override suspend fun getPatients(
         lastUpdated: String?
-    ): Result<List<Patient>, DataError.Remote> {
+    ): Result<List<Patient>, BambiniError> {
         val accountId = accountDatasource.getAccountId()
         val token = accountDatasource.getToken()
-        val response: Result<List<PatientDto>, DataError.Remote> = safeCall {
+        val response: Result<List<PatientDto>, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/clients/$accountId/patients",
             ) {
@@ -45,10 +45,10 @@ class KtorRemotePatientDataSource(
         }
     }
 
-    override suspend fun getPatient(patientId: String): Result<Patient, DataError.Remote> {
+    override suspend fun getPatient(patientId: String): Result<Patient, BambiniError> {
         val accountId = accountDatasource.getAccountId()
         val token = accountDatasource.getToken()
-        val response: Result<PatientDto, DataError.Remote> = safeCall {
+        val response: Result<PatientDto, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/clients/$accountId/patients/$patientId",
             ) {
@@ -64,7 +64,7 @@ class KtorRemotePatientDataSource(
         }
     }
 
-    override suspend fun updatePatient(patient: Patient): Result<String, DataError.Remote> {
+    override suspend fun updatePatient(patient: Patient): Result<String, BambiniError> {
         val accountId = accountDatasource.getAccountId()
         val token = accountDatasource.getToken()
         return safeCall {

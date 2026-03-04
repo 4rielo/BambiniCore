@@ -23,15 +23,20 @@ ksp = "2.2.0-2.0.2"
 sqlite = "2.6.2"
 room = "2.8.4"
 
+turbine = "1.2.1"
+
 [libraries]
 core-ktx = { module = "androidx.core:core-ktx", version.ref = "coreKtx" }
 kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinSerialization" }
 
 kotlinx-coroutines-core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 datastore-preferences-core = { module = "androidx.datastore:datastore-preferences-core", version.ref = "datastorePreferencesCore" }
 datastore-preferences-android = { module = "androidx.datastore:datastore-preferences", version.ref = "datastorePreferencesCore"}
 
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor_version" }
+ktor-client-mock-jvm = { module = "io.ktor:ktor-client-mock-jvm", version.ref = "ktor_version" }
 ktor-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor_version" }
 ktor-client-okhttp = { module = "io.ktor:ktor-client-okhttp", version.ref = "ktor_version" }
 ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor_version" }
@@ -39,6 +44,9 @@ ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negoti
 ktor-client-serialization = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor_version" }
 ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor_version" }
 ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor_version" }
+
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+
 kotlin-stdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlinStdlib" }
 kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlinTest" }
 runner = { group = "androidx.test", name = "runner", version.ref = "runner" }
