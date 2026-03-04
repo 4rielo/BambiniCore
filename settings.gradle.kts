@@ -20,4 +20,6 @@ plugins {
     id("org.gradle.toolchains.foojay-resolver-convention") version "1.0.0"
 }
 
-include(":bambiniCore")
+include(":bambini-core")
+include(":bambini-data-patients")
+include(":bambini-data-network")
