@@ -1,49 +1,63 @@
+import com.android.build.api.dsl.androidLibrary
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+
 plugins {
-    kotlin("multiplatform")
+    alias(libs.plugins.kotlinMultiplatform)
+    alias(libs.plugins.androidKotlinMultiplatformLibrary)
+
     id("maven-publish")
+//    id("com.android.library") /* <- Android Gradle Plugin for libraries */
 }
 
-group = "com.ascarafia"
-version = "0.1.9"
+group = providers.gradleProperty("GROUP").get()
+version = providers.gradleProperty("VERSION_NAME").get()
 
 kotlin {
+    androidLibrary {
+        namespace = "com.ascarafia.bambini"
+        compileSdk = libs.versions.android.compileSdk.get().toInt()
+        minSdk = libs.versions.android.minSdk.get().toInt()
+
+        withJava() // enable java compilation support
+        withHostTestBuilder {}.configure {}
+        withDeviceTestBuilder {
+            sourceSetTreeName = "test"
+        }
+
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
 
     jvmToolchain(17)
-    jvm()
+    jvm("desktop")
 
     iosArm64()
     iosSimulatorArm64()
 
     sourceSets {
+        val desktopMain by getting
 
-        commonMain {
-            dependencies {
+        commonMain.dependencies {
                 // core puro
-            }
         }
 
-        commonTest {
-            dependencies {
-                implementation(kotlin("test"))
-            }
+        androidMain.dependencies {
+            implementation(libs.core.ktx)
         }
-    }
 
-    /*
-    //androidTarget()
-    listOf(
-        iosArm64(),
-        iosSimulatorArm64()
-    ).forEach { iosTarget ->
-        iosTarget.binaries.framework {
-            baseName = "ComposeApp"
-            isStatic = true
+        iosMain.dependencies {
+
+        }
+
+        desktopMain.dependencies {
+
+        }
+
+        commonTest.dependencies {
+            implementation(kotlin("test"))
         }
     }
-
-    jvm("desktop")
-    */
-
 }
 
 publishing {

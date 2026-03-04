@@ -21,3 +21,5 @@ plugins {
 }
 
 include(":bambini-core")
+include(":bambini-data-patients")
+include(":bambini-data-network")
