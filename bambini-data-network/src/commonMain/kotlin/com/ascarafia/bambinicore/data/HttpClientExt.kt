@@ -54,7 +54,7 @@ inline fun <reified T> responseToResult(
     response: DefaultResponse<T>
 ): Result<T, BambiniError> {
     return when(response.responseCode) {
-        in 200..299 -> {
+        0 -> {
             if(response.data != null) {
                 Result.Success(response.data)
             } else {
