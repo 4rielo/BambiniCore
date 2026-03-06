@@ -16,5 +16,5 @@ interface PatientDataSource {
 
     suspend fun updatePatient(
         patient: Patient
-    ): Result<String, BambiniError>
+    ): Result<Patient, BambiniError>
 }

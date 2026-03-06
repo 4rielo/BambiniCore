@@ -64,7 +64,7 @@ class KtorRemotePatientDataSource(
         }
     }
 
-    override suspend fun updatePatient(patient: Patient): Result<String, BambiniError> {
+    override suspend fun updatePatient(patient: Patient): Result<Patient, BambiniError> {
         val accountId = accountDatasource.getAccountId()
         val token = accountDatasource.getToken()
         return safeCall {

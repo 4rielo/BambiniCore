@@ -36,7 +36,8 @@ suspend inline fun <reified T> responseToResult(
     return when(response.status.value) {
         in 200..299 -> {
             try {
-                responseToResult( response.body<DefaultResponse<T>>() )
+                val defaultResponse = response.body<DefaultResponse<T>>()
+                defaultResponseToResult(defaultResponse)
             } catch(e: NoTransformationFoundException) {
                 Result.Error(DataError.Remote.SERIALIZATION)
             }
@@ -50,7 +51,7 @@ suspend inline fun <reified T> responseToResult(
     }
 }
 
-inline fun <reified T> responseToResult(
+inline fun <reified T> defaultResponseToResult(
     response: DefaultResponse<T>
 ): Result<T, BambiniError> {
     return when(response.responseCode) {
