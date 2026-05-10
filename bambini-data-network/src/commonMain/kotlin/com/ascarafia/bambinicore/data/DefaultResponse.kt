@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class DefaultResponse<T>(
-    @SerialName("responseCode") val responseCode: Int?,
-    @SerialName("responseMessage") val responseMessage: String?,
-    @SerialName("responseBody") val data: T?
+    @SerialName("responseCode") val responseCode: Int? = null,
+    @SerialName("responseMessage") val responseMessage: String? = null,
+    @SerialName("responseBody") val data: T? = null
 )
