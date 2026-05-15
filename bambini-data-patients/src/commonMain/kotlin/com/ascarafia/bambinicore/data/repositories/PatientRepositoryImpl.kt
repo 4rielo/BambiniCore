@@ -13,6 +13,7 @@ import com.ascarafia.bambinicore.domain.repositories.PatientRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 class PatientRepositoryImpl(
@@ -44,7 +45,9 @@ class PatientRepositoryImpl(
     }
 
     override fun getPatients(): Flow<List<Patient>> {
-        return localDataSource.getFlowPatientList()
+        return localDataSource.getFlowPatientList().onEach {
+            it.filter { patient -> !patient.isDeleted }
+        }
     }
 
     override suspend fun updatePatientInfo(patient: Patient): EmptyResult<DataError> {
