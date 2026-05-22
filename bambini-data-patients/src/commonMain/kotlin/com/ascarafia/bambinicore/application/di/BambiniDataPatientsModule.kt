@@ -15,6 +15,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.core.module.Module
 import org.koin.core.module.dsl.singleOf
+import org.koin.core.qualifier.named
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
@@ -25,8 +26,10 @@ val bambiniDataPatientsModule: List<Module> get() = listOf<Module>(
 expect val patientsPlatformModule: Module
 
 val patientsRepositoryModule: Module = module {
-    singleOf(::PatientRepositoryImpl) bind PatientRepository::class
-}
+    single { PatientRepositoryImpl(get(), get(), get(named("IODispatcher"))) } bind PatientRepository::class
+    single(named("IODispatcher")) {
+        Dispatchers.IO
+    }}
 
 val patientsDatabaseModule: Module = module {
     single {

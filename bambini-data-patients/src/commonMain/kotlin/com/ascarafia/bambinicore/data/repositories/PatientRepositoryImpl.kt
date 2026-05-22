@@ -10,19 +10,20 @@ import androidx.sqlite.SQLiteException
 import com.ascarafia.bambinicore.domain.datasource.LocalPatientsDataSource
 import com.ascarafia.bambinicore.domain.datasource.PatientDataSource
 import com.ascarafia.bambinicore.domain.repositories.PatientRepository
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.withContext
 
 class PatientRepositoryImpl(
     private val localDataSource: LocalPatientsDataSource,
     private val remoteDataSource: PatientDataSource,
+    private val repositoryDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): PatientRepository {
 
     override suspend fun sync() {
-        withContext(Dispatchers.IO) {
+        withContext(repositoryDispatcher) {
             val localPatients = localDataSource.getPatientList()
             val remotePatientsResponse = remoteDataSource.getPatients()
             if (remotePatientsResponse is Result.Success) {
@@ -45,16 +46,16 @@ class PatientRepositoryImpl(
     }
 
     override fun getPatients(): Flow<List<Patient>> {
-        return localDataSource.getFlowPatientList().onEach {
-            it.filter { patient -> !patient.isDeleted }
-        }
+        return localDataSource.getFlowPatientList()
     }
 
     override suspend fun updatePatientInfo(patient: Patient): EmptyResult<DataError> {
         return try {
             val lastUpdate = DateTimeUtils.getCurrentDateTimeString()
             val updatedPatient = patient.copy(lastUpdated = lastUpdate)
-            localDataSource.upsertPatient(updatedPatient)
+            withContext(repositoryDispatcher) {
+                localDataSource.upsertPatient(updatedPatient)
+            }
         } catch(e: SQLiteException) {
             Result.Error(DataError.Local.DISK_FULL)
         }
@@ -66,6 +67,6 @@ class PatientRepositoryImpl(
     }
 
     override suspend fun getPatient(patientId: String): Patient? {
-        return localDataSource.getPatient(patientId = patientId)
+        return withContext(repositoryDispatcher) { localDataSource.getPatient(patientId = patientId) }
     }
 }

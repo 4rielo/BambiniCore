@@ -39,7 +39,7 @@ object HttpClientFactory {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        println("********************** API CALL LOGGER: $message")
+                        println("********************** API CALL LOGGER:\n$message\n**********************")
                     }
                 }
                 level = LogLevel.ALL
