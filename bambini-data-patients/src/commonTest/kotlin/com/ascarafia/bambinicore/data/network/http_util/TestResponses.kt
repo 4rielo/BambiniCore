@@ -8,12 +8,12 @@ object TestResponses {
 
     val twoPatientsListResponse = listOf(
         PatientDto(
-            patientId = "69316331316628d3d6b127d8.70047535",
+            id = "69316331316628d3d6b127d8.70047535",
             name = "Jorge",
             lastName = "Pérez"
         ),
         PatientDto(
-            patientId = "69316331316628d3d6b127d8.70047532",
+            id = "69316331316628d3d6b127d8.70047532",
             name = "Pedro",
             lastName = "López"
         )

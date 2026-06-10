@@ -1,39 +1,32 @@
 package com.ascarafia.bambinicore.domain
 
 import com.ascarafia.bambinicore.domain.model.Patient
+import com.ascarafia.bambinicore.domain.use_cases.DateTimeUtils
 import com.ascarafia.bambinicore.domain.use_cases.ListSortingUseCase
 import kotlin.collections.emptyList
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
+import kotlin.time.Instant
 
 class ListSortingUseCaseTest {
 
     private fun getPatientWith(id: String, lastUpdated: String): Patient {
+        val lastUpdatedInstant = DateTimeUtils.fromIsoString(lastUpdated)
         return Patient(
-            patientId = id,
+            id = id,
             idNumber = "1",
             name = "Patient 1",
             lastName = "Last Name 1",
-            lastUpdated = lastUpdated,
+            updatedAt = lastUpdatedInstant ?: Instant.DISTANT_FUTURE,
             isDeleted = false,
-            clinicHistory = emptyList(),
             city = "",
             province = "",
             country = "",
             dateOfBirth = "",
-            size = emptyList(),
-            weight = emptyList(),
-            bmi = emptyList(),
-            headSize = emptyList(),
             gender = "",
             allergies = emptyList(),
             medications = emptyList(),
-            otherStudies = emptyList(),
-            phoneNumberA = "",
-            gestationWeeks = "",
-            legalGuardianA = "",
-            legalGuardianARelationship = "",
             socialSecurity = "",
             socialSecurityNumber = ""
         )

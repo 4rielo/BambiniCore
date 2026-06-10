@@ -6,9 +6,7 @@ import com.ascarafia.bambinicore.domain.model.error.BambiniError
 
 interface PatientDataSource {
 
-    suspend fun getPatients(
-        lastUpdated: String? = null
-    ): Result<List<Patient>, BambiniError>
+    suspend fun getPatients(): Result<List<Patient>, BambiniError>
 
     suspend fun getPatient(
         patientId: String
@@ -16,5 +14,9 @@ interface PatientDataSource {
 
     suspend fun updatePatient(
         patient: Patient
-    ): Result<Patient, BambiniError>
+    ): Result<Unit, BambiniError>
+
+    suspend fun deletePatient(
+        patientId: String
+    ): Result<Unit, BambiniError>
 }

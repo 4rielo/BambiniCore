@@ -1,6 +1,5 @@
 package com.ascarafia.bambinicore.data.network.datasource
 
-import com.ascarafia.bambinicore.data.DefaultResponse
 import com.ascarafia.bambinicore.data.safeCall
 import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
 import com.ascarafia.bambinicore.data.network.dto.PatientDto
@@ -11,8 +10,8 @@ import com.ascarafia.bambinicore.domain.datasource.PatientDataSource
 import com.ascarafia.bambinicore.domain.model.Patient
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.error.BambiniError
-import com.ascarafia.bambinicore.domain.model.error.ResponseError
 import io.ktor.client.HttpClient
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.headers
 import io.ktor.client.request.parameter
@@ -25,16 +24,14 @@ class KtorRemotePatientDataSource(
     private val accountDatasource: AccountDataSource
 ): PatientDataSource {
 
-    override suspend fun getPatients(
-        lastUpdated: String?
-    ): Result<List<Patient>, BambiniError> {
+    override suspend fun getPatients(): Result<List<Patient>, BambiniError> {
         val accountId = accountDatasource.getAccountId()
         val token = accountDatasource.getToken()
         val response: Result<List<PatientDto>, BambiniError> = safeCall {
             httpClient.get(
-                urlString = "${config.baseUrl}/api/clients/$accountId/patients",
+                urlString = "${config.baseUrl}/api/patients",
             ) {
-                parameter("lastUpdate", lastUpdated)
+                parameter("tenantId", accountId)
                 headers {
                     append("Authorization", "Bearer $token")
                 }
@@ -52,8 +49,9 @@ class KtorRemotePatientDataSource(
         val token = accountDatasource.getToken()
         val response: Result<PatientDto, BambiniError> = safeCall {
             httpClient.get(
-                urlString = "${config.baseUrl}/api/clients/$accountId/patients/$patientId",
+                urlString = "${config.baseUrl}/api/patients/$patientId",
             ) {
+                parameter("tenantId", accountId)
                 headers {
                     append("Authorization", "Bearer $token")
                 }
@@ -66,23 +64,36 @@ class KtorRemotePatientDataSource(
         }
     }
 
-    override suspend fun updatePatient(patient: Patient): Result<Patient, BambiniError> {
+    override suspend fun updatePatient(patient: Patient): Result<Unit, BambiniError> {
         val accountId = accountDatasource.getAccountId()
         val token = accountDatasource.getToken()
-        val response: Result<PatientDto, BambiniError> = safeCall {
+        return safeCall {
             httpClient.put(
-                urlString = "${config.baseUrl}/api/clients/$accountId/patients/${patient.patientId}"
+                urlString = "${config.baseUrl}/api/patients/${patient.id}"
             ) {
-                setBody(patient.toPatientDto())
+                parameter("tenantId", accountId)
+                setBody(patient.toPatientDto(
+                    tenantId = accountId.orEmpty(),
+                ))
                 headers {
                     append("Authorization", "Bearer $token")
                 }
             }
         }
+    }
 
-        return when(response) {
-            is Result.Success -> Result.Success(response.data.toPatient())
-            is Result.Error<*> -> response
+    override suspend fun deletePatient(patientId: String): Result<Unit, BambiniError> {
+        val accountId = accountDatasource.getAccountId()
+        val token = accountDatasource.getToken()
+        return safeCall {
+            httpClient.delete(
+                urlString = "${config.baseUrl}/api/patients/$patientId"
+            ) {
+                parameter("tenantId", accountId)
+                headers {
+                    append("Authorization", "Bearer $token")
+                }
+            }
         }
     }
 }

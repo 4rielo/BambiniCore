@@ -36,8 +36,10 @@ suspend inline fun <reified T> responseToResult(
     return when(response.status.value) {
         in 200..299 -> {
             try {
-                val defaultResponse = response.body<DefaultResponse<T>>()
-                defaultResponseToResult(defaultResponse)
+                //NOTE: this was commented out, because we're moving out of the DefaultResponse, but might be used again later
+                //val defaultResponse = response.body<DefaultResponse<T>>()
+                //defaultResponseToResult(defaultResponse)
+                Result.Success(response.body())
             } catch(e: NoTransformationFoundException) {
                 Result.Error(DataError.Remote.SERIALIZATION)
             }

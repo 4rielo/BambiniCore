@@ -1,16 +1,11 @@
 package com.ascarafia.bambinicore.application.di
 
-import androidx.sqlite.driver.bundled.BundledSQLiteDriver
-import com.ascarafia.bambinicore.data.database.DatabaseFactory
-import com.ascarafia.bambinicore.data.database.PatientDatabase
-import com.ascarafia.bambinicore.data.database.migrations.DatabaseMigrations.MIGRATION_1_2
-import com.ascarafia.bambinicore.data.database.migrations.DatabaseMigrations.MIGRATION_2_3
-import com.ascarafia.bambinicore.data.datasources.LocalPatientsDataSourceImpl
-import com.ascarafia.bambinicore.data.network.datasource.KtorRemotePatientDataSource
-import com.ascarafia.bambinicore.data.repositories.PatientRepositoryImpl
-import com.ascarafia.bambinicore.domain.datasource.LocalPatientsDataSource
-import com.ascarafia.bambinicore.domain.datasource.PatientDataSource
-import com.ascarafia.bambinicore.domain.repositories.PatientRepository
+import com.ascarafia.bambinicore.data.network.datasource.*
+import com.ascarafia.bambinicore.data.repositories.PatientDetailRepositoryImpl
+import com.ascarafia.bambinicore.data.repositories.PatientListRepositoryImpl
+import com.ascarafia.bambinicore.domain.datasource.*
+import com.ascarafia.bambinicore.domain.repositories.PatientDetailRepository
+import com.ascarafia.bambinicore.domain.repositories.PatientListRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.IO
 import org.koin.core.module.Module
@@ -20,29 +15,39 @@ import org.koin.dsl.bind
 import org.koin.dsl.module
 
 val bambiniDataPatientsModule: List<Module> get() = listOf<Module>(
-    patientsPlatformModule, patientsRepositoryModule, patientsDatabaseModule, patientsDataSourceModule
+    patientsRepositoryModule, patientsDataSourceModule
 ) + bambiniNetworkModule
 
-expect val patientsPlatformModule: Module
-
 val patientsRepositoryModule: Module = module {
-    single { PatientRepositoryImpl(get(), get(), get(named("IODispatcher"))) } bind PatientRepository::class
     single(named("IODispatcher")) {
         Dispatchers.IO
-    }}
-
-val patientsDatabaseModule: Module = module {
-    single {
-        get<DatabaseFactory>().create()
-            .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
-            .setDriver(BundledSQLiteDriver())
-            .setQueryCoroutineContext(Dispatchers.IO)
-            .build()
     }
-    single { get<PatientDatabase>().patientDao }
+    single {
+        PatientListRepositoryImpl(
+            get(),
+            get(qualifier = named("IODispatcher"))
+        )
+    } bind PatientListRepository::class
+
+    single {
+        PatientDetailRepositoryImpl(
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(),
+            get(qualifier = named("IODispatcher"))
+        )
+    } bind PatientDetailRepository::class
 }
 
 val patientsDataSourceModule: Module = module {
     singleOf(::KtorRemotePatientDataSource) bind PatientDataSource::class
-    singleOf(::LocalPatientsDataSourceImpl) bind LocalPatientsDataSource::class
+    singleOf(::KtorRemoteAllergyDataSource) bind AllergyDataSource::class
+    singleOf(::KtorRemoteConsultationDataSource) bind ConsultationDataSource::class
+    singleOf(::KtorRemoteGuardianDataSource) bind GuardianDataSource::class
+    singleOf(::KtorRemoteMeasurementDataSource) bind MeasurementDataSource::class
+    singleOf(::KtorRemoteMedicationDataSource) bind MedicationDataSource::class
+    singleOf(::KtorRemoteStudyDataSource) bind StudyDataSource::class
 }
