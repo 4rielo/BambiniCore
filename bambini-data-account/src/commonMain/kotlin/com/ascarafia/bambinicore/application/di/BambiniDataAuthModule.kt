@@ -11,7 +11,7 @@ import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.bind
 import org.koin.dsl.module
 
-val bambiniDataAuthModule: List<Module> get() = listOf<Module>(
+val bambiniAuthModule: List<Module> get() = listOf<Module>(
     authRepositoryModule, authDataSourceModule
 ) + bambiniNetworkModule
 
