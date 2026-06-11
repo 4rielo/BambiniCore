@@ -1,11 +1,11 @@
 [versions]
 agp = "8.13.2"
 
-android-compileSdk = "37"
+android-compileSdk = "36"
 android-minSdk = "30"
-android-targetSdk = "37"
+android-targetSdk = "36"
 
-coreKtx = "1.18.0"
+coreKtx = "1.15.0"
 kotlin = "2.4.0"
 kotlinSerialization = "1.11.0"
 coroutines = "1.11.0"

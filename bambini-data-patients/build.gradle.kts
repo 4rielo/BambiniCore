@@ -115,3 +115,7 @@ publishing {
     }
 }
 
+tasks.matching { it.name == "extractAndroidMainAnnotations" }.configureEach {
+    dependsOn("kspAndroidMain")
+}
+

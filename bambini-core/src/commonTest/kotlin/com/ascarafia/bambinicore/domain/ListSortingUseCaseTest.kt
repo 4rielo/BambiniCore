@@ -33,7 +33,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists for remote only`() {
+    fun update_lists_for_remote_only() {
         val localList = listOf<Patient>(
             getPatientWith("1", "2023-08-01T00:00:00"),
         )
@@ -49,7 +49,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists for local only`() {
+    fun update_lists_for_local_only() {
         val localList = listOf<Patient>()
         val remoteList = listOf<Patient>(
             getPatientWith("1", "2023-08-01T00:00:00"),
@@ -65,7 +65,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists one each for local and remote`() {
+    fun update_lists_one_each_for_local_and_remote() {
         val localList = listOf<Patient>(
             getPatientWith("1", "2023-08-01T00:00:00"),
         )
@@ -83,7 +83,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists on remote only, when local is newer`() {
+    fun update_lists_on_remote_only_when_local_is_newer() {
         val localList = listOf<Patient>(
             getPatientWith("1", "2023-08-02T00:00:00"),
         )
@@ -102,7 +102,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists on local only, when remote is newer`() {
+    fun update_lists_on_local_only_when_remote_is_newer() {
         val localList = listOf<Patient>(
             getPatientWith("1", "2023-08-01T00:00:00"),
         )
@@ -121,7 +121,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists on remote only, when local is newer because of GMT`() {
+    fun update_lists_on_remote_only_when_local_is_newer_because_of_GMT() {
         val localList = listOf<Patient>(
             getPatientWith("1", "2023-01-02T22:35:01+01:00"),
         )
@@ -140,7 +140,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists when remote is newer, but local contains an extra Patient`() {
+    fun update_lists_when_remote_is_newer_but_local_contains_an_extra_Patient() {
         val localList = listOf<Patient>(
             getPatientWith("1", "2023-08-01T00:00:00"),
             getPatientWith("2", "2023-08-01T00:00:00"),
@@ -160,7 +160,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists when local is newer, but remote contains an extra Patient`() {
+    fun update_lists_when_local_is_newer_but_remote_contains_an_extra_Patient() {
         val localList = listOf<Patient>(
             getPatientWith("1", "2023-08-02T00:00:00"),
         )
@@ -180,7 +180,7 @@ class ListSortingUseCaseTest {
     }
 
     @Test
-    fun `update lists when local is newer, but remote contains extra Patients, large list sets`() {
+    fun update_lists_when_local_is_newer_but_remote_contains_extra_Patients_large_list_sets() {
         val localList = listOf<Patient>(
             getPatientWith("1", "2023-08-02T00:00:00"),
             getPatientWith("2", "2023-08-02T00:00:00"),
