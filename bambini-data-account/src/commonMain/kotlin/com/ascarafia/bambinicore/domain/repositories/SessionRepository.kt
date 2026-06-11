@@ -8,7 +8,7 @@ import com.ascarafia.bambinicore.domain.model.LoginResponse
 
 interface SessionRepository {
     suspend fun login(email: String, password: String): Result<LoginResponse, BambiniError>
-    suspend fun register(name: String, lastName: String, email: String, password: String): Result<LoginResponse, BambiniError>
+    suspend fun register(name: String, lastName: String, email: String, password: String): Result<Unit, BambiniError>
     suspend fun refreshToken(): Result<LoginResponse, BambiniError>
     suspend fun forgotPassword(email: String): Result<Unit, BambiniError>
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit, BambiniError>

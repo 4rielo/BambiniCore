@@ -35,8 +35,8 @@ class SessionRepositoryImpl(
     ): Result<LoginResponse, BambiniError> = withContext(repositoryDispatcher) {
         val response = remoteAuthDataSource.login(email, password)
         if(response is Result.Success) {
-            accountDataSource.saveToken(response.data.token)
-            accountDataSource.saveRefreshToken(response.data.refreshToken)
+            accountDataSource.saveToken(response.data.token.orEmpty())
+            accountDataSource.saveRefreshToken(response.data.refreshToken.orEmpty())
         }
         return@withContext response
     }
@@ -46,7 +46,7 @@ class SessionRepositoryImpl(
         lastName: String,
         email: String,
         password: String
-    ): Result<LoginResponse, BambiniError> = withContext(repositoryDispatcher) {
+    ): Result<Unit, BambiniError> = withContext(repositoryDispatcher) {
         val registerBody = RegisterRequest(
             name = name,
             lastName = lastName,
@@ -64,8 +64,8 @@ class SessionRepositoryImpl(
         } ?: Result.Error(DataError.Remote.NO_TOKEN)
 
         if(response is Result.Success) {
-            accountDataSource.saveToken(response.data.token)
-            accountDataSource.saveRefreshToken(response.data.refreshToken)
+            accountDataSource.saveToken(response.data.token.orEmpty())
+            accountDataSource.saveRefreshToken(response.data.refreshToken.orEmpty())
         }
 
         return@withContext response
