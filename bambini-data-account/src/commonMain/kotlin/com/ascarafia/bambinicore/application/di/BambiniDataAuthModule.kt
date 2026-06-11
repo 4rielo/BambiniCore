@@ -19,14 +19,14 @@ val bambiniAuthModule: List<Module> get() = listOf<Module>(
 ) + bambiniNetworkModule
 
 val authRepositoryModule: Module = module {
-    single(named("IODispatcher")) {
+    single(named("AuthIODispatcher")) {
         Dispatchers.IO
     }
     single {
         SessionRepositoryImpl(
             get(),
             get(),
-            get(qualifier = named("IODispatcher"))
+            get(qualifier = named("AuthIODispatcher"))
         )
     } bind SessionRepository::class
     singleOf(::AccountRepositoryImpl) bind AccountRepository::class
