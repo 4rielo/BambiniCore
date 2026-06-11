@@ -1,7 +1,7 @@
-package com.ascarafia.bambini.data.mappers
+package com.ascarafia.bambinicore.data.mappers
 
-import com.ascarafia.bambini.data.network.model.LoginResponseDto
-import com.ascarafia.bambini.domain.network.model.LoginResponse
+import com.ascarafia.bambinicore.data.network.dto.LoginResponseDto
+import com.ascarafia.bambinicore.domain.model.LoginResponse
 
 fun LoginResponse.toLoginResponseDto(): LoginResponseDto {
     return LoginResponseDto(

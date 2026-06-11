@@ -1,7 +1,7 @@
-package com.ascarafia.bambini.data.mappers
+package com.ascarafia.bambinicore.data.mappers
 
-import com.ascarafia.bambini.data.network.model.RegisterRequestDto
-import com.ascarafia.bambini.domain.network.model.RegisterRequest
+import com.ascarafia.bambinicore.data.network.dto.RegisterRequestDto
+import com.ascarafia.bambinicore.domain.model.RegisterRequest
 
 fun RegisterRequest.toRegisterRequestDto(): RegisterRequestDto {
     return RegisterRequestDto(

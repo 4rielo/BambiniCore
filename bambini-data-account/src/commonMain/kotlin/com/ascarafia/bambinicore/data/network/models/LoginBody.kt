@@ -1,4 +1,4 @@
-package com.ascarafia.bambini.data.network.model
+package com.ascarafia.bambinicore.data.network.models
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

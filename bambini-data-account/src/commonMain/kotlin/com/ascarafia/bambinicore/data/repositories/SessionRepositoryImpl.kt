@@ -1,13 +1,13 @@
-package com.ascarafia.bambini.data.repositories
+package com.ascarafia.bambinicore.data.repositories
 
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.EmptyResult
 import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import com.ascarafia.bambinicore.domain.model.error.DataError
 import com.ascarafia.bambinicore.domain.model.Account
-import com.ascarafia.bambini.domain.network.model.LoginResponse
-import com.ascarafia.bambini.domain.network.model.RegisterRequest
-import com.ascarafia.bambini.domain.repositories.SessionRepository
+import com.ascarafia.bambinicore.domain.model.LoginResponse
+import com.ascarafia.bambinicore.domain.model.RegisterRequest
+import com.ascarafia.bambinicore.domain.repositories.SessionRepository
 import com.ascarafia.bambinicore.domain.datasource.AccountDataSource
 import com.ascarafia.bambinicore.domain.datasource.AuthDataSource
 import kotlinx.coroutines.CoroutineDispatcher

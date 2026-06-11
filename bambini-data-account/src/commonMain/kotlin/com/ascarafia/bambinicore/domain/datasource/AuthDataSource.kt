@@ -3,8 +3,8 @@ package com.ascarafia.bambinicore.domain.datasource
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.Account
 import com.ascarafia.bambinicore.domain.model.error.BambiniError
-import com.ascarafia.bambini.domain.network.model.LoginResponse
-import com.ascarafia.bambini.domain.network.model.RegisterRequest
+import com.ascarafia.bambinicore.domain.model.LoginResponse
+import com.ascarafia.bambinicore.domain.model.RegisterRequest
 
 interface AuthDataSource {
 

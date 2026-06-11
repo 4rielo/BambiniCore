@@ -1,4 +1,4 @@
-package com.ascarafia.bambini.domain.network.model
+package com.ascarafia.bambinicore.domain.model
 
 data class LoginResponse(
     val token: String,

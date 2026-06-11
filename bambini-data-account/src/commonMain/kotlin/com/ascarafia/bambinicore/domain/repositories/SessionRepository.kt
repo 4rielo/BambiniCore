@@ -1,10 +1,10 @@
-package com.ascarafia.bambini.domain.repositories
+package com.ascarafia.bambinicore.domain.repositories
 
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.EmptyResult
 import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import com.ascarafia.bambinicore.domain.model.Account
-import com.ascarafia.bambini.domain.network.model.LoginResponse
+import com.ascarafia.bambinicore.domain.model.LoginResponse
 
 interface SessionRepository {
     suspend fun login(email: String, password: String): Result<LoginResponse, BambiniError>

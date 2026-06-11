@@ -1,4 +1,4 @@
-package com.ascarafia.bambini.domain.repositories
+package com.ascarafia.bambinicore.domain.repositories
 
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.error.BambiniError

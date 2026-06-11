@@ -1,11 +1,11 @@
-package com.ascarafia.bambini.data.repositories
+package com.ascarafia.bambinicore.data.repositories
 
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import com.ascarafia.bambinicore.domain.model.error.DataError
 import com.ascarafia.bambinicore.domain.use_cases.DateTimeUtils
 import com.ascarafia.bambinicore.domain.model.Account
-import com.ascarafia.bambini.domain.repositories.AccountRepository
+import com.ascarafia.bambinicore.domain.repositories.AccountRepository
 import com.ascarafia.bambinicore.domain.datasource.AccountDataSource
 import com.ascarafia.bambinicore.domain.datasource.AuthDataSource
 
