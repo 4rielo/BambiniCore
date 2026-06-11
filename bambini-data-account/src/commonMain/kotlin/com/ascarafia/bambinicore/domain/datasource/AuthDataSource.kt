@@ -9,7 +9,7 @@ import com.ascarafia.bambinicore.domain.model.RegisterRequest
 interface AuthDataSource {
 
     suspend fun login(email: String, password: String): Result<LoginResponse, BambiniError>
-    suspend fun register(registerBody: RegisterRequest): Result<LoginResponse, BambiniError>
+    suspend fun register(registerBody: RegisterRequest): Result<Unit, BambiniError>
     suspend fun refreshToken(refreshToken: String): Result<LoginResponse, BambiniError>
     suspend fun forgotPassword(email: String): Result<Unit, BambiniError>
     suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit, BambiniError>

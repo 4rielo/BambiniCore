@@ -47,19 +47,15 @@ class KtorAuthDataSource(
         }
     }
 
-    override suspend fun register(registerBody: RegisterRequest): Result<LoginResponse, BambiniError> {
-        val response: Result<LoginResponseDto, BambiniError> = safeCall {
+    override suspend fun register(registerBody: RegisterRequest): Result<Unit, BambiniError> {
+        val response: Result<Unit, BambiniError> = safeCall {
             httpClient.post (
                 urlString = "${config.baseUrl}/api/auth/signup",
             ) {
                 setBody (registerBody.toRegisterRequestDto())
             }
         }
-
-        return when (response) {
-            is Result.Success -> Result.Success(response.data.toLoginResponse())
-            is Result.Error<*> -> response
-        }
+        return response
     }
 
     override suspend fun refreshToken(refreshToken: String): Result<LoginResponse, BambiniError> {

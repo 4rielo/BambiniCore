@@ -54,10 +54,6 @@ class SessionRepositoryImpl(
             password = password
         )
         val response = remoteAuthDataSource.register(registerBody)
-        if(response is Result.Success) {
-            accountDataSource.saveToken(response.data.token)
-            accountDataSource.saveRefreshToken(response.data.refreshToken)
-        }
         return@withContext response
     }
 
