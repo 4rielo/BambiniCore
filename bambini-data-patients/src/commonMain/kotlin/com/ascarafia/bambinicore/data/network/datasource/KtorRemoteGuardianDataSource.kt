@@ -12,7 +12,6 @@ import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 
@@ -21,13 +20,11 @@ class KtorRemoteGuardianDataSource(
     private val config: BambiniRemoteConfig,
 ): GuardianDataSource {
 
-    override suspend fun getGuardians(patientId: String, accountId: String): Result<List<Guardian>, BambiniError> {
+    override suspend fun getGuardians(patientId: String): Result<List<Guardian>, BambiniError> {
         val response: Result<List<GuardianDto>, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/patients/$patientId/guardians",
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
 
         return when(response) {
@@ -36,26 +33,23 @@ class KtorRemoteGuardianDataSource(
         }
     }
 
-    override suspend fun updateGuardian(patientId: String, accountId: String, guardian: Guardian): Result<Unit, BambiniError> {
+    override suspend fun updateGuardian(patientId: String, guardian: Guardian): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/guardians/${guardian.id}"
             ) {
-                parameter("tenantId", accountId)
                 setBody(guardian.toGuardianDto(
-                    tenantId = accountId
+                    tenantId = ""
                 ))
             }
         }
     }
 
-    override suspend fun deleteGuardian(patientId: String, accountId: String, guardianId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteGuardian(patientId: String, guardianId: String): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/guardians/$guardianId"
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
     }
 }

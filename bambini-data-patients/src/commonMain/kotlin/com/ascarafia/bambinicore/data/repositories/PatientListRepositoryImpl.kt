@@ -1,6 +1,5 @@
 package com.ascarafia.bambinicore.data.repositories
 
-import com.ascarafia.bambinicore.domain.datasource.AccountDataSource
 import com.ascarafia.bambinicore.domain.datasource.PatientDataSource
 import com.ascarafia.bambinicore.domain.model.Patient
 import com.ascarafia.bambinicore.domain.model.Result
@@ -17,7 +16,6 @@ import kotlinx.coroutines.withContext
 
 class PatientListRepositoryImpl(
     private val remoteDataSource: PatientDataSource,
-    private val accountDataSource: AccountDataSource,
     private val repositoryDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): PatientListRepository {
 
@@ -25,9 +23,7 @@ class PatientListRepositoryImpl(
 
     override suspend fun sync() {
         withContext(repositoryDispatcher) {
-            val remotePatientList = remoteDataSource.getPatients(
-                accountId = accountDataSource.getAccountId().orEmpty()
-            )
+            val remotePatientList = remoteDataSource.getPatients()
             if (remotePatientList is Result.Success) {
                 patientList.value = remotePatientList.data
             }
@@ -40,10 +36,7 @@ class PatientListRepositoryImpl(
 
     override suspend fun updatePatientInfo(patient: Patient): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-                remoteDataSource.updatePatient(
-                    accountId = accountDataSource.getAccountId().orEmpty(),
-                    patient = patient
-                )
+                remoteDataSource.updatePatient(patient)
             }
 
     }
@@ -55,10 +48,7 @@ class PatientListRepositoryImpl(
 
     override suspend fun getPatient(patientId: String): Patient? {
         return withContext(repositoryDispatcher) {
-            val result = remoteDataSource.getPatient(
-                patientId = patientId,
-                accountId = accountDataSource.getAccountId().orEmpty()
-            )
+            val result = remoteDataSource.getPatient(patientId)
             if (result is Result.Success) result.data else null
         }
     }

@@ -25,7 +25,6 @@ val patientsRepositoryModule: Module = module {
     single {
         PatientListRepositoryImpl(
             remoteDataSource = get(),
-            accountDataSource = get(),
             repositoryDispatcher = get(qualifier = named("IODispatcher"))
         )
     } bind PatientListRepository::class
@@ -38,7 +37,6 @@ val patientsRepositoryModule: Module = module {
             measurementDataSource = get(),
             medicationDataSource = get(),
             studyDataSource = get(),
-            accountDataSource = get(),
             repositoryDispatcher = get(qualifier = named("IODispatcher"))
         )
     } bind PatientDetailRepository::class

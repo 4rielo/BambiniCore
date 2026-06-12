@@ -12,7 +12,6 @@ import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 
@@ -21,13 +20,11 @@ class KtorRemoteAllergyDataSource(
     private val config: BambiniRemoteConfig,
 ): AllergyDataSource {
 
-    override suspend fun getAllergies(patientId: String, accountId: String): Result<List<Allergy>, BambiniError> {
+    override suspend fun getAllergies(patientId: String): Result<List<Allergy>, BambiniError> {
         val response: Result<List<AllergyDto>, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/patients/$patientId/allergies",
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
 
         return when(response) {
@@ -38,16 +35,14 @@ class KtorRemoteAllergyDataSource(
 
     override suspend fun updateAllergy(
         patientId: String,
-        accountId: String,
         allergy: Allergy
     ): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/allergies/${allergy.id}"
             ) {
-                parameter("tenantId", accountId)
                 setBody(allergy.toAllergyDto(
-                    tenantId = accountId,
+                    tenantId = "",
                     patientId = patientId
                 ))
             }
@@ -56,15 +51,12 @@ class KtorRemoteAllergyDataSource(
 
     override suspend fun deleteAllergy(
         patientId: String,
-        accountId: String,
         allergyId: String
     ): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/allergies/$allergyId"
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
     }
 }

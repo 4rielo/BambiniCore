@@ -12,7 +12,6 @@ import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 
@@ -21,13 +20,11 @@ class KtorRemotePatientDataSource(
     private val config: BambiniRemoteConfig,
 ): PatientDataSource {
 
-    override suspend fun getPatients(accountId: String): Result<List<Patient>, BambiniError> {
+    override suspend fun getPatients(): Result<List<Patient>, BambiniError> {
         val response: Result<List<PatientDto>, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/patients",
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
 
         return when(response) {
@@ -36,13 +33,11 @@ class KtorRemotePatientDataSource(
         }
     }
 
-    override suspend fun getPatient(patientId: String, accountId: String): Result<Patient, BambiniError> {
+    override suspend fun getPatient(patientId: String): Result<Patient, BambiniError> {
         val response: Result<PatientDto, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/patients/$patientId",
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
 
         return when(response) {
@@ -51,26 +46,23 @@ class KtorRemotePatientDataSource(
         }
     }
 
-    override suspend fun updatePatient(accountId: String, patient: Patient): Result<Unit, BambiniError> {
+    override suspend fun updatePatient(patient: Patient): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/${patient.id}"
             ) {
-                parameter("tenantId", accountId)
                 setBody(patient.toPatientDto(
-                    tenantId = accountId,
+                    tenantId = "",
                 ))
             }
         }
     }
 
-    override suspend fun deletePatient(patientId: String, accountId: String): Result<Unit, BambiniError> {
+    override suspend fun deletePatient(patientId: String): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId"
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
     }
 }

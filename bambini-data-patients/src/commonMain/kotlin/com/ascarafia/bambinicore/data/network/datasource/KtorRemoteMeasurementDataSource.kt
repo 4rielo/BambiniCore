@@ -12,7 +12,6 @@ import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 
@@ -21,13 +20,11 @@ class KtorRemoteMeasurementDataSource(
     private val config: BambiniRemoteConfig,
 ): MeasurementDataSource {
 
-    override suspend fun getMeasurements(patientId: String, accountId: String): Result<List<Measurement>, BambiniError> {
+    override suspend fun getMeasurements(patientId: String): Result<List<Measurement>, BambiniError> {
         val response: Result<List<MeasurementDto>, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/patients/$patientId/measurements",
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
 
         return when(response) {
@@ -36,26 +33,23 @@ class KtorRemoteMeasurementDataSource(
         }
     }
 
-    override suspend fun updateMeasurement(patientId: String, accountId: String, measurement: Measurement): Result<Unit, BambiniError> {
+    override suspend fun updateMeasurement(patientId: String, measurement: Measurement): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/measurements/${measurement.id}"
             ) {
-                parameter("tenantId", accountId)
                 setBody(measurement.toMeasurementDto(
-                    tenantId = accountId
+                    tenantId = ""
                 ))
             }
         }
     }
 
-    override suspend fun deleteMeasurement(patientId: String, accountId: String, measurementId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteMeasurement(patientId: String, measurementId: String): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/measurements/$measurementId"
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
     }
 }

@@ -12,7 +12,6 @@ import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 
@@ -21,13 +20,11 @@ class KtorRemoteStudyDataSource(
     private val config: BambiniRemoteConfig,
 ): StudyDataSource {
 
-    override suspend fun getStudies(patientId: String, accountId: String): Result<List<Study>, BambiniError> {
+    override suspend fun getStudies(patientId: String): Result<List<Study>, BambiniError> {
         val response: Result<List<StudyDto>, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/patients/$patientId/studies",
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
 
         return when(response) {
@@ -36,26 +33,23 @@ class KtorRemoteStudyDataSource(
         }
     }
 
-    override suspend fun updateStudy(patientId: String, accountId: String, study: Study): Result<Unit, BambiniError> {
+    override suspend fun updateStudy(patientId: String, study: Study): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/studies/${study.id}"
             ) {
-                parameter("tenantId", accountId)
                 setBody(study.toStudyDto(
-                    tenantId = accountId
+                    tenantId = ""
                 ))
             }
         }
     }
 
-    override suspend fun deleteStudy(patientId: String, accountId: String, studyId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteStudy(patientId: String, studyId: String): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/studies/$studyId"
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
     }
 }

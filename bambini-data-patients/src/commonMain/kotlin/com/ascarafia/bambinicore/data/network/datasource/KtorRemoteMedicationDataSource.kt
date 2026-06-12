@@ -12,7 +12,6 @@ import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.parameter
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 
@@ -21,13 +20,11 @@ class KtorRemoteMedicationDataSource(
     private val config: BambiniRemoteConfig,
 ): MedicationDataSource {
 
-    override suspend fun getMedications(patientId: String, accountId: String): Result<List<Medication>, BambiniError> {
+    override suspend fun getMedications(patientId: String): Result<List<Medication>, BambiniError> {
         val response: Result<List<MedicationDto>, BambiniError> = safeCall {
             httpClient.get(
                 urlString = "${config.baseUrl}/api/patients/$patientId/medications",
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
 
         return when(response) {
@@ -36,26 +33,23 @@ class KtorRemoteMedicationDataSource(
         }
     }
 
-    override suspend fun updateMedication(patientId: String, accountId: String, medication: Medication): Result<Unit, BambiniError> {
+    override suspend fun updateMedication(patientId: String, medication: Medication): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/medications/${medication.id}"
             ) {
-                parameter("tenantId", accountId)
                 setBody(medication.toMedicationDto(
-                    tenantId = accountId
+                    tenantId = ""
                 ))
             }
         }
     }
 
-    override suspend fun deleteMedication(patientId: String, accountId: String, medicationId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteMedication(patientId: String, medicationId: String): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/medications/$medicationId"
-            ) {
-                parameter("tenantId", accountId)
-            }
+            )
         }
     }
 }
