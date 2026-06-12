@@ -1,10 +1,14 @@
-package com.ascarafia.bambinicore.data
+package com.ascarafia.bambinicore.data.network
 
 import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
 import com.ascarafia.bambinicore.domain.Environment
+import com.ascarafia.bambinicore.domain.network.TokenProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.HttpClientEngine
 import io.ktor.client.plugins.HttpTimeout
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.defaultRequest
 import io.ktor.client.plugins.logging.LogLevel
@@ -19,7 +23,8 @@ import kotlinx.serialization.json.Json
 object HttpClientFactory {
     fun create(
         engine: HttpClientEngine,
-        config: BambiniRemoteConfig = BambiniRemoteConfig( mapOf(Environment.DEV to ""), Environment.DEV)
+        config: BambiniRemoteConfig = BambiniRemoteConfig( mapOf(Environment.DEV to ""), Environment.DEV),
+        tokenProvider: TokenProvider,
     ): HttpClient {
         return HttpClient(engine) {
             install(ContentNegotiation) {
@@ -39,10 +44,20 @@ object HttpClientFactory {
             install(Logging) {
                 logger = object : Logger {
                     override fun log(message: String) {
-                        println("********************** API CALL LOGGER:\n$message\n**********************")
+                        println("******************************\nAPI CALL LOGGER:\n$message\n******************************")
                     }
                 }
                 level = LogLevel.ALL
+            }
+            install(Auth) {
+                bearer {
+                    loadTokens {
+                        val accessToken = tokenProvider.getAccessToken()
+                        val refreshToken = tokenProvider.getRefreshToken()
+                        if (accessToken.isNullOrBlank()) return@loadTokens null
+                        BearerTokens(accessToken, refreshToken.orEmpty())
+                    }
+                }
             }
             defaultRequest {
                 contentType(ContentType.Application.Json)

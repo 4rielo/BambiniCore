@@ -96,7 +96,7 @@ class SessionRepositoryImpl(
                 val response = remoteAuthDataSource.accountInfo(token)
 
                 if (response is Result.Success) {
-                    accountDataSource.saveAccountId(response.data.id)
+                    accountDataSource.saveAccountId(response.data.tenantId)
                 }
 
                 return@withContext response

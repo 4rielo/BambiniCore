@@ -1,9 +1,10 @@
 package com.ascarafia.bambinicore.data.repositories
 
-import com.ascarafia.bambinicore.domain.model.EmptyResult
-import com.ascarafia.bambinicore.domain.model.Patient
+import com.ascarafia.bambinicore.domain.datasource.AccountDataSource
 import com.ascarafia.bambinicore.domain.datasource.PatientDataSource
+import com.ascarafia.bambinicore.domain.model.Patient
 import com.ascarafia.bambinicore.domain.model.Result
+import com.ascarafia.bambinicore.domain.model.EmptyResult
 import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import com.ascarafia.bambinicore.domain.repositories.PatientListRepository
 import kotlinx.coroutines.CoroutineDispatcher
@@ -13,10 +14,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.withContext
-import kotlin.collections.emptyList
 
 class PatientListRepositoryImpl(
     private val remoteDataSource: PatientDataSource,
+    private val accountDataSource: AccountDataSource,
     private val repositoryDispatcher: CoroutineDispatcher = Dispatchers.IO
 ): PatientListRepository {
 
@@ -24,7 +25,9 @@ class PatientListRepositoryImpl(
 
     override suspend fun sync() {
         withContext(repositoryDispatcher) {
-            val remotePatientList = remoteDataSource.getPatients()
+            val remotePatientList = remoteDataSource.getPatients(
+                accountId = accountDataSource.getAccountId().orEmpty()
+            )
             if (remotePatientList is Result.Success) {
                 patientList.value = remotePatientList.data
             }
@@ -37,7 +40,10 @@ class PatientListRepositoryImpl(
 
     override suspend fun updatePatientInfo(patient: Patient): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-                remoteDataSource.updatePatient(patient)
+                remoteDataSource.updatePatient(
+                    accountId = accountDataSource.getAccountId().orEmpty(),
+                    patient = patient
+                )
             }
 
     }
@@ -48,6 +54,12 @@ class PatientListRepositoryImpl(
     }
 
     override suspend fun getPatient(patientId: String): Patient? {
-        return withContext(repositoryDispatcher) { patientList.value.firstOrNull { it.id == patientId } }
+        return withContext(repositoryDispatcher) {
+            val result = remoteDataSource.getPatient(
+                patientId = patientId,
+                accountId = accountDataSource.getAccountId().orEmpty()
+            )
+            if (result is Result.Success) result.data else null
+        }
     }
 }

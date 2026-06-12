@@ -1,11 +1,12 @@
 package com.ascarafia.bambinicore.data.network.datasource
 
-import com.ascarafia.bambinicore.data.HttpClientFactory
+import com.ascarafia.bambinicore.data.network.HttpClientFactory
 import com.ascarafia.bambinicore.data.network.http_util.TestResponses
 import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
 import com.ascarafia.bambinicore.domain.Environment
 import com.ascarafia.bambinicore.domain.datasource.AccountDataSource
 import com.ascarafia.bambinicore.domain.model.Result
+import com.ascarafia.bambinicore.domain.network.TokenProvider
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.mock.MockEngine
 import io.ktor.client.engine.mock.respond
@@ -13,6 +14,7 @@ import io.ktor.client.engine.mock.respondError
 import io.ktor.http.HttpStatusCode
 import io.ktor.http.headersOf
 import kotlinx.coroutines.runBlocking
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlin.test.BeforeTest
 import kotlin.test.Test
@@ -28,8 +30,8 @@ class KtorRemotePatientDataSourceTest {
     @BeforeTest
     fun setUp() {
         accountDataSource = object: AccountDataSource {
-            var localToken: String? = null
-            var localRefreshToken: String? = null
+            var localToken: String? = "token"
+            var localRefreshToken: String? = "refreshToken"
             var localLastUpdate: String? = null
             var localAccountId: String? = "1"
 
@@ -66,31 +68,32 @@ class KtorRemotePatientDataSourceTest {
 
         httpClient = HttpClientFactory
             .create(
-                MockEngine.create {
-                    addHandler { request ->
+                engine = MockEngine { request ->
                         val relativeUrl = request.url.encodedPath
                         when (relativeUrl) {
-                            "/api/clients/1/patients" -> {
-                                respond(
-                                    content = Json.encodeToString(
-                                        TestResponses.twoPatientsListResponse
-                                    ),
-                                    status = HttpStatusCode.OK,
-                                    headers = headersOf(
-                                        "Content-Type" , "application/json"
+                            "/api/patients" -> {
+                                val tenantId = request.url.parameters["tenantId"]
+                                if (tenantId == "1") {
+                                    respond(
+                                        content = Json.encodeToString(
+                                            TestResponses.twoPatientsListResponse
+                                        ),
+                                        status = HttpStatusCode.OK,
+                                        headers = headersOf(
+                                            "Content-Type", "application/json"
+                                        )
                                     )
-                                )
-                            }
-                            "/api/clients/2/patients" -> {
-                                respond(
-                                    content = Json.encodeToString(
-                                        TestResponses.emptyListResponse
-                                    ),
-                                    status = HttpStatusCode.OK,
-                                    headers = headersOf(
-                                        "Content-Type" , "application/json"
+                                } else {
+                                    respond(
+                                        content = Json.encodeToString(
+                                            TestResponses.emptyListResponse
+                                        ),
+                                        status = HttpStatusCode.OK,
+                                        headers = headersOf(
+                                            "Content-Type", "application/json"
+                                        )
                                     )
-                                )
+                                }
                             }
                             else -> {
                                 respondError(
@@ -98,20 +101,27 @@ class KtorRemotePatientDataSourceTest {
                                 )
                             }
                         }
-                    }
+                },
+                config = config,
+                tokenProvider = object : TokenProvider {
+                    override suspend fun getAccessToken(): String? = "token"
+                    override suspend fun getRefreshToken(): String? = "refreshToken"
+                    override suspend fun saveTokens(accessToken: String, refreshToken: String) {}
+                    override suspend fun clearTokens() {}
                 }
             )
 
         remotePatientDataSource = KtorRemotePatientDataSource(
             httpClient,
-            config,
-            accountDataSource
+            config
         )
     }
 
     @Test
     fun `Patient list is correctly returned by API call`() = runBlocking {
-        val response = remotePatientDataSource.getPatients()
+        val response = remotePatientDataSource.getPatients(
+            accountId = accountDataSource.getAccountId().orEmpty()
+        )
         val patientList = when(response) {
             is Result.Success -> {
                 response.data
@@ -127,7 +137,9 @@ class KtorRemotePatientDataSourceTest {
     @Test
     fun `Empty patient list is correctly returned by API call`() = runBlocking {
         accountDataSource.saveAccountId("2")
-        val response = remotePatientDataSource.getPatients()
+        val response = remotePatientDataSource.getPatients(
+            accountId = accountDataSource.getAccountId().orEmpty()
+        )
         val patientList = when(response) {
             is Result.Success -> {
                 response.data

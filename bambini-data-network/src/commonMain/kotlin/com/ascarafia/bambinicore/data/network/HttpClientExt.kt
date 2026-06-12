@@ -1,4 +1,4 @@
-package com.ascarafia.bambinicore.data
+package com.ascarafia.bambinicore.data.network
 
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.error.BambiniError

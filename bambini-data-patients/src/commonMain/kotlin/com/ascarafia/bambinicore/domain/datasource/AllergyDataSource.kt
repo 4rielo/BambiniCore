@@ -5,7 +5,7 @@ import com.ascarafia.bambinicore.domain.model.Allergy
 import com.ascarafia.bambinicore.domain.model.error.BambiniError
 
 interface AllergyDataSource {
-    suspend fun getAllergies(patientId: String): Result<List<Allergy>, BambiniError>
-    suspend fun updateAllergy(patientId: String, allergy: Allergy): Result<Unit, BambiniError>
-    suspend fun deleteAllergy(patientId: String, allergyId: String): Result<Unit, BambiniError>
+    suspend fun getAllergies(patientId: String, accountId: String): Result<List<Allergy>, BambiniError>
+    suspend fun updateAllergy(patientId: String, accountId: String, allergy: Allergy): Result<Unit, BambiniError>
+    suspend fun deleteAllergy(patientId: String, accountId: String, allergyId: String): Result<Unit, BambiniError>
 }

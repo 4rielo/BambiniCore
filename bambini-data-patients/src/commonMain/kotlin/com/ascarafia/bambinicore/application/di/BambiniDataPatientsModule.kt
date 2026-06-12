@@ -24,20 +24,22 @@ val patientsRepositoryModule: Module = module {
     }
     single {
         PatientListRepositoryImpl(
-            get(),
-            get(qualifier = named("IODispatcher"))
+            remoteDataSource = get(),
+            accountDataSource = get(),
+            repositoryDispatcher = get(qualifier = named("IODispatcher"))
         )
     } bind PatientListRepository::class
 
     single {
         PatientDetailRepositoryImpl(
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(),
-            get(qualifier = named("IODispatcher"))
+            allergyDataSource = get(),
+            consultationDataSource = get(),
+            guardianDataSource = get(),
+            measurementDataSource = get(),
+            medicationDataSource = get(),
+            studyDataSource = get(),
+            accountDataSource = get(),
+            repositoryDispatcher = get(qualifier = named("IODispatcher"))
         )
     } bind PatientDetailRepository::class
 }

@@ -15,7 +15,7 @@ import com.ascarafia.bambinicore.domain.model.LoginResponse
 import com.ascarafia.bambinicore.domain.model.RegisterRequest
 import com.ascarafia.bambinicore.data.mappers.toAccount
 import com.ascarafia.bambinicore.data.network.dto.UserDto
-import com.ascarafia.bambinicore.data.safeCall
+import com.ascarafia.bambinicore.data.network.safeCall
 import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
 import com.ascarafia.bambinicore.domain.datasource.AuthDataSource
 import io.ktor.client.HttpClient
