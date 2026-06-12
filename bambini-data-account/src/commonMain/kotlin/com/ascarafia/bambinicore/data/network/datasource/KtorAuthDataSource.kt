@@ -89,10 +89,11 @@ class KtorAuthDataSource(
     }
 
     override suspend fun changePassword(
-        oldPassword: String,
+        userId: String,
+        currentPassword: String,
         newPassword: String
     ): Result<Unit, BambiniError> {
-        val body = ChangePasswordBody(oldPassword, newPassword)
+        val body = ChangePasswordBody(userId,currentPassword, newPassword)
         val response: Result<Unit, BambiniError> = safeCall {
             httpClient.post(
                 urlString = "${config.baseUrl}/api/auth/change-password"
@@ -110,11 +111,11 @@ class KtorAuthDataSource(
         token: String,
         newPassword: String
     ): Result<Unit, BambiniError> {
-        val resetPasswordBody = ResetPasswordBody(token)
+        val resetPasswordBody = ResetPasswordBody(newPassword)
 
         val response: Result<Unit, BambiniError> = safeCall {
             httpClient.post(
-                urlString = "${config.baseUrl}/api/auth/reset-password"
+                urlString = "${config.baseUrl}/api/auth/reset-password?token=$token"
             ) {
                 setBody(resetPasswordBody)
             }

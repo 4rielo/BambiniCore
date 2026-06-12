@@ -12,7 +12,7 @@ interface AuthDataSource {
     suspend fun register(registerBody: RegisterRequest): Result<Unit, BambiniError>
     suspend fun refreshToken(refreshToken: String): Result<LoginResponse, BambiniError>
     suspend fun forgotPassword(email: String): Result<Unit, BambiniError>
-    suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit, BambiniError>
+    suspend fun changePassword(userId: String, currentPassword: String, newPassword: String): Result<Unit, BambiniError>
     suspend fun resetPassword(token: String, newPassword: String): Result<Unit, BambiniError>
     suspend fun logout(): Result<Unit, BambiniError>
     suspend fun accountInfo(): Result<Account, BambiniError>
