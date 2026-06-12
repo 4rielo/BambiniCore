@@ -11,7 +11,7 @@ interface SessionRepository {
     suspend fun register(name: String, lastName: String, email: String, password: String): Result<Unit, BambiniError>
     suspend fun refreshToken(): Result<LoginResponse, BambiniError>
     suspend fun forgotPassword(email: String): Result<Unit, BambiniError>
-    suspend fun changePassword(oldPassword: String, newPassword: String): Result<Unit, BambiniError>
+    suspend fun changePassword(userId: String, oldPassword: String, newPassword: String): Result<Unit, BambiniError>
     suspend fun resetPassword(token: String, newPassword: String): Result<Unit, BambiniError>
 
     suspend fun fetchAccountInfo(): Result<Account, BambiniError>

@@ -76,10 +76,11 @@ class SessionRepositoryImpl(
     }
 
     override suspend fun changePassword(
+        userId: String,
         oldPassword: String,
         newPassword: String
     ): Result<Unit, BambiniError> = withContext(repositoryDispatcher) {
-        return@withContext remoteAuthDataSource.changePassword(oldPassword, newPassword)
+        return@withContext remoteAuthDataSource.changePassword(userId,oldPassword, newPassword)
     }
 
     override suspend fun resetPassword(
