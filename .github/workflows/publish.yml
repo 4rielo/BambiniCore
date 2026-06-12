@@ -11,34 +11,24 @@ permissions:
 
 jobs:
   publish:
-    # CAMBIO 1: Usar Ubuntu es mucho más rápido y barato (10x menos minutos consumidos)
-    runs-on: macos-latest
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up JDK 21
+      - name: Set up JDK
         uses: actions/setup-java@v4
         with:
           distribution: "temurin"
           java-version: "21"
-
-      # CAMBIO 2: Usar la acción oficial de Gradle para mejor caching
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: wrapper
+          cache: "gradle"
 
       - name: Grant execute permission for gradlew
         run: chmod +x ./gradlew
 
       - name: Publish to GitHub Packages
-        # CAMBIO 3:
-        # -x test: Salta los tests para publicar más rápido
-        # --parallel: Permite compilar los 4 módulos a la vez si no hay dependencias circulares
-        # --no-daemon: Recomendado para entornos CI
-        run: ./gradlew publish -x test --parallel --no-daemon
+        run: ./gradlew publish
         env:
           GITHUB_ACTOR: ${{ github.actor }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
