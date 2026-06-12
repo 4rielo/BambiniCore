@@ -27,14 +27,10 @@ class AccountRepositoryImpl(
     }
 
     override suspend fun fetchAccountInfo(): Result<Account, BambiniError> {
-        val token = accountDataSource.getToken()
-        token?.let {
-            val accountInfo = remoteAuthDataSource.accountInfo(token)
-            if(accountInfo is Result.Success) {
-                accountDataSource.saveAccountId(accountInfo.data.id)
-            }
-            return accountInfo
+        val accountInfo = remoteAuthDataSource.accountInfo()
+        if(accountInfo is Result.Success) {
+            accountDataSource.saveAccountId(accountInfo.data.id)
         }
-        return Result.Error(DataError.Remote.UNKNOWN)
+        return accountInfo
     }
 }

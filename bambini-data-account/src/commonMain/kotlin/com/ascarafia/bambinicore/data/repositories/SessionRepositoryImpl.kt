@@ -89,20 +89,14 @@ class SessionRepositoryImpl(
         return@withContext remoteAuthDataSource.resetPassword(token, newPassword)
     }
 
-    override suspend fun fetchAccountInfo(): Result<Account, BambiniError> {
-        val token = accountDataSource.getToken()
-        token?.let {
-            return withContext(repositoryDispatcher) {
-                val response = remoteAuthDataSource.accountInfo(token)
+    override suspend fun fetchAccountInfo(): Result<Account, BambiniError> = withContext(repositoryDispatcher) {
+        val response = remoteAuthDataSource.accountInfo()
 
-                if (response is Result.Success) {
-                    accountDataSource.saveAccountId(response.data.tenantId)
-                }
-
-                return@withContext response
-            }
+        if (response is Result.Success) {
+            accountDataSource.saveAccountId(response.data.tenantId)
         }
-        return Result.Error(DataError.Remote.UNKNOWN)
+
+        return@withContext response
     }
 
     override suspend fun logOut(): EmptyResult<BambiniError> = withContext(repositoryDispatcher) {
@@ -119,16 +113,8 @@ class SessionRepositoryImpl(
         return@withContext Result.Error(DataError.Remote.UNKNOWN)
     }
 
-    override suspend fun deleteAccount(): EmptyResult<BambiniError> {
-        val token = accountDataSource.getToken()
-        val clientId = accountDataSource.getAccountId()
-
-        return if(token != null && clientId != null) {
-            remoteAuthDataSource.deleteAccount(token, clientId)
-            //TODO: logout
-        } else {
-            Result.Error(DataError.Local.UNKNOWN)
-        }
+    override suspend fun deleteAccount(): EmptyResult<BambiniError> = withContext(repositoryDispatcher) {
+        return@withContext remoteAuthDataSource.deleteAccount()
     }
 
 

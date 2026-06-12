@@ -21,7 +21,6 @@ import com.ascarafia.bambinicore.domain.datasource.AuthDataSource
 import io.ktor.client.HttpClient
 import io.ktor.client.request.delete
 import io.ktor.client.request.get
-import io.ktor.client.request.headers
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
 
@@ -132,15 +131,11 @@ class KtorAuthDataSource(
         //TODO("Not yet implemented")
     }
 
-    override suspend fun accountInfo(token: String): Result<Account, BambiniError> {
+    override suspend fun accountInfo(): Result<Account, BambiniError> {
         val response: Result<UserDto, BambiniError> = safeCall {
             httpClient.get (
                 urlString = "${config.baseUrl}/api/auth/account",
-            ) {
-                headers {
-                    append("Authorization", "Bearer $token")
-                }
-            }
+            )
         }
 
         return when (response) {
@@ -149,15 +144,11 @@ class KtorAuthDataSource(
         }
     }
 
-    override suspend fun deleteAccount(clientId: String, token: String): Result<Unit, BambiniError> {
+    override suspend fun deleteAccount(): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete (
-                urlString = "${config.baseUrl}/api/auth/delete/${clientId}",
-            ) {
-                headers {
-                    append("Authorization", "Bearer $token")
-                }
-            }
+                urlString = "${config.baseUrl}/api/auth/delete-account",
+            )
         }
     }
 }
