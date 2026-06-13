@@ -44,12 +44,28 @@ suspend inline fun <reified T> responseToResult(
                 Result.Error(DataError.Remote.SERIALIZATION)
             }
         }
-        401 -> Result.Error(DataError.Remote.UNAUTHORIZED)
-        404 -> Result.Error(DataError.Remote.NOT_FOUND)
-        408 -> Result.Error(DataError.Remote.REQUEST_TIMEOUT)
-        429 -> Result.Error(DataError.Remote.TOO_MANY_REQUESTS)
-        in 500..599 -> Result.Error(DataError.Remote.SERVER)
-        else -> Result.Error(DataError.Remote.UNKNOWN)
+        else -> {
+            val errorBody = try {
+                response.body<ServerError>()
+            } catch (e: Exception) {
+                null
+            }
+
+            val error = when(response.status.value) {
+                401 -> DataError.Remote.UNAUTHORIZED
+                404 -> DataError.Remote.NOT_FOUND
+                408 -> DataError.Remote.REQUEST_TIMEOUT
+                429 -> DataError.Remote.TOO_MANY_REQUESTS
+                in 500..599 -> DataError.Remote.SERVER
+                else -> DataError.Remote.UNKNOWN
+            }
+
+            if (errorBody?.message != null) {
+                Result.Error(errorBody)
+            } else {
+                Result.Error(error)
+            }
+        }
     }
 }
 
