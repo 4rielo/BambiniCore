@@ -17,4 +17,6 @@ interface AuthDataSource {
     suspend fun logout(): Result<Unit, BambiniError>
     suspend fun accountInfo(): Result<Account, BambiniError>
     suspend fun deleteAccount(email: String, userId: String): Result<Unit, BambiniError>
+    suspend fun confirmDeleteAccount(token: String): Result<Unit, BambiniError>
+    suspend fun verifyEmail(token: String): Result<Unit, BambiniError>
 }

@@ -154,4 +154,20 @@ class KtorAuthDataSource(
             }
         }
     }
+
+    override suspend fun confirmDeleteAccount(token: String): Result<Unit, BambiniError> {
+        return safeCall {
+            httpClient.get (
+                urlString = "${config.baseUrl}/api/auth/delete-account/confirm?token=$token",
+            )
+        }
+    }
+
+    override suspend fun verifyEmail(token: String): Result<Unit, BambiniError> {
+        return safeCall {
+            httpClient.get (
+                urlString = "${config.baseUrl}/api/auth/verify-email?token=$token",
+            )
+        }
+    }
 }

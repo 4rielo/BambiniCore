@@ -118,6 +118,14 @@ class SessionRepositoryImpl(
         return@withContext remoteAuthDataSource.deleteAccount(email, userId)
     }
 
+    override suspend fun confirmDeleteAccount(token: String): EmptyResult<BambiniError> = withContext(repositoryDispatcher) {
+        return@withContext remoteAuthDataSource.confirmDeleteAccount(token)
+    }
+
+    override suspend fun verifyEmail(token: String): EmptyResult<BambiniError> = withContext(repositoryDispatcher) {
+        return@withContext remoteAuthDataSource.verifyEmail(token)
+    }
+
 
     override fun refreshTokenFailed() {
         refreshTokenJob?.cancel()
