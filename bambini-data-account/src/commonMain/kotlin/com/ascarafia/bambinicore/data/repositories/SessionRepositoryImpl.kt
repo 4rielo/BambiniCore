@@ -114,8 +114,8 @@ class SessionRepositoryImpl(
         return@withContext Result.Error(DataError.Remote.UNKNOWN)
     }
 
-    override suspend fun deleteAccount(): EmptyResult<BambiniError> = withContext(repositoryDispatcher) {
-        return@withContext remoteAuthDataSource.deleteAccount()
+    override suspend fun deleteAccount(email: String, userId: String): EmptyResult<BambiniError> = withContext(repositoryDispatcher) {
+        return@withContext remoteAuthDataSource.deleteAccount(email, userId)
     }
 
 

@@ -16,6 +16,6 @@ interface SessionRepository {
 
     suspend fun fetchAccountInfo(): Result<Account, BambiniError>
     suspend fun logOut(): EmptyResult<BambiniError>
-    suspend fun deleteAccount(): EmptyResult<BambiniError>
+    suspend fun deleteAccount(email: String, userId: String): EmptyResult<BambiniError>
     fun refreshTokenFailed()
 }

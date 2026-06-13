@@ -3,6 +3,7 @@ package com.ascarafia.bambinicore.data.network.datasource
 import com.ascarafia.bambinicore.data.mappers.toLoginResponse
 import com.ascarafia.bambinicore.data.mappers.toRegisterRequestDto
 import com.ascarafia.bambinicore.data.network.models.ChangePasswordBody
+import com.ascarafia.bambinicore.data.network.models.DeleteAccountBody
 import com.ascarafia.bambinicore.data.network.models.ForgotPassword
 import com.ascarafia.bambinicore.data.network.models.LoginBody
 import com.ascarafia.bambinicore.data.network.dto.LoginResponseDto
@@ -19,7 +20,6 @@ import com.ascarafia.bambinicore.data.network.safeCall
 import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
 import com.ascarafia.bambinicore.domain.datasource.AuthDataSource
 import io.ktor.client.HttpClient
-import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.setBody
@@ -145,11 +145,13 @@ class KtorAuthDataSource(
         }
     }
 
-    override suspend fun deleteAccount(): Result<Unit, BambiniError> {
+    override suspend fun deleteAccount(email: String, userId: String): Result<Unit, BambiniError> {
         return safeCall {
-            httpClient.delete (
+            httpClient.post (
                 urlString = "${config.baseUrl}/api/auth/delete-account",
-            )
+            ) {
+                setBody(DeleteAccountBody(email, userId))
+            }
         }
     }
 }

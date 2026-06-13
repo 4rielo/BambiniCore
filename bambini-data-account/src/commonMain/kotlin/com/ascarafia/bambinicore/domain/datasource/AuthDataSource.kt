@@ -16,5 +16,5 @@ interface AuthDataSource {
     suspend fun resetPassword(token: String, newPassword: String): Result<Unit, BambiniError>
     suspend fun logout(): Result<Unit, BambiniError>
     suspend fun accountInfo(): Result<Account, BambiniError>
-    suspend fun deleteAccount(): Result<Unit, BambiniError>
+    suspend fun deleteAccount(email: String, userId: String): Result<Unit, BambiniError>
 }
