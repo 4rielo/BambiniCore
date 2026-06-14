@@ -22,5 +22,5 @@ val bambiniNetworkAccountDatasourceModule = module {
     singleOf(::LocalTokenProvider) bind TokenProvider::class
 }
 val bambiniNetworkHttpClientModule = module {
-    single { HttpClientFactory.create(get(), get(), get() ) } bind HttpClient::class
+    single { HttpClientFactory.create(get(), get(), get(), get() ) } bind HttpClient::class
 }

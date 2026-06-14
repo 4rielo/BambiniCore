@@ -4,6 +4,7 @@ import com.ascarafia.bambinicore.data.network.HttpClientFactory
 import com.ascarafia.bambinicore.data.network.http_util.TestResponses
 import com.ascarafia.bambinicore.domain.BambiniRemoteConfig
 import com.ascarafia.bambinicore.domain.Environment
+import com.ascarafia.bambinicore.domain.LanguageProvider
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.network.TokenProvider
 import io.ktor.client.HttpClient
@@ -61,6 +62,9 @@ class KtorRemotePatientDataSourceTest {
                     override suspend fun getRefreshToken(): String? = "refreshToken"
                     override suspend fun saveTokens(accessToken: String, refreshToken: String) {}
                     override suspend fun clearTokens() {}
+                },
+                languageProvider = object : LanguageProvider {
+                    override fun getLanguage(): String = "en"
                 }
             )
 
