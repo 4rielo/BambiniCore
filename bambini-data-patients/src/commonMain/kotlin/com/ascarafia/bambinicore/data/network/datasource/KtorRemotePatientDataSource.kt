@@ -28,7 +28,7 @@ class KtorRemotePatientDataSource(
         }
 
         return when(response) {
-            is Result.Success -> Result.Success(response.data.map { it.toPatient() })
+            is Result.Success -> Result.Success(response.data.map { patientDto -> patientDto.toPatient() })
             is Result.Error<*> -> response
         }
     }
@@ -46,19 +46,19 @@ class KtorRemotePatientDataSource(
         }
     }
 
-    override suspend fun updatePatient(patient: Patient): Result<Unit, BambiniError> {
+    override suspend fun updatePatient(patient: Patient): Result<Patient, BambiniError> {
         return safeCall {
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/${patient.id}"
             ) {
-                setBody(patient.toPatientDto(
-                    tenantId = "",
-                ))
+                setBody(
+                    patient.toPatientDto()
+                )
             }
         }
     }
 
-    override suspend fun deletePatient(patientId: String): Result<Unit, BambiniError> {
+    override suspend fun deletePatient(patientId: String): Result<Patient, BambiniError> {
         return safeCall {
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId"

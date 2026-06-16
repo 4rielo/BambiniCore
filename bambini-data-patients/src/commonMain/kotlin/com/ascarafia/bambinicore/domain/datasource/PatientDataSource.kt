@@ -14,9 +14,9 @@ interface PatientDataSource {
 
     suspend fun updatePatient(
         patient: Patient
-    ): Result<Unit, BambiniError>
+    ): Result<Patient, BambiniError>
 
     suspend fun deletePatient(
         patientId: String
-    ): Result<Unit, BambiniError>
+    ): Result<Patient, BambiniError>
 }

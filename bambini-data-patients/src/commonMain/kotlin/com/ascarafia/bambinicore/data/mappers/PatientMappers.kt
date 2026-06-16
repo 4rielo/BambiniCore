@@ -34,10 +34,9 @@ fun PatientDto.toPatient(): Patient {
     )
 }
 
-fun Patient.toPatientDto(tenantId: String): PatientDto {
+fun Patient.toPatientDto(): PatientDto {
     return PatientDto(
         id = id,
-        tenantId = tenantId,
         idNumber = idNumber,
         name = name,
         lastName = lastName,
