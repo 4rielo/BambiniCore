@@ -47,7 +47,7 @@ class KtorRemotePatientDataSource(
     }
 
     override suspend fun updatePatient(patient: Patient): Result<Patient, BambiniError> {
-        return safeCall {
+        val response: Result<PatientDto, BambiniError> = safeCall {
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/${patient.id}"
             ) {
@@ -55,6 +55,10 @@ class KtorRemotePatientDataSource(
                     patient.toPatientDto()
                 )
             }
+        }
+        return when(response) {
+            is Result.Success -> Result.Success(response.data.toPatient() )
+            is Result.Error<*> -> response
         }
     }
 
