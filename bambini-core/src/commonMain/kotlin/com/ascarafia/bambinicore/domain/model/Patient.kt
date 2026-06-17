@@ -24,7 +24,7 @@ data class Patient(
     val measurements: List<Measurement> = emptyList(),
     val consultations: List<Consultation> = emptyList(),
     val studies: List<Study> = emptyList(),
-    val allergies: List<String> = emptyList(),
+    val allergies: List<Allergy> = emptyList(),
     val medications: List<Medication> = emptyList(),
     val guardians: List<Guardian> = emptyList(),
 )
