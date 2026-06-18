@@ -10,6 +10,6 @@ interface PatientListRepository {
     suspend fun sync()
     fun getPatients(): Flow<List<Patient>>
     suspend fun updatePatientInfo(patient: Patient): Result<Patient, BambiniError>
-    suspend fun deletePatient(patient: Patient): Result<Patient, BambiniError>
+    suspend fun deletePatient(patient: Patient): Result<Unit, BambiniError>
     suspend fun getPatient(patientId: String): Patient?
 }

@@ -40,9 +40,10 @@ class PatientListRepositoryImpl(
 
     }
 
-    override suspend fun deletePatient(patient: Patient): Result<Patient, BambiniError> {
-        val deletePatient = patient.copy(isDeleted = true)
-        return updatePatientInfo(deletePatient)
+    override suspend fun deletePatient(patient: Patient): Result<Unit, BambiniError> {
+        return withContext(repositoryDispatcher) {
+            remoteDataSource.deletePatient(patient.id)
+        }
     }
 
     override suspend fun getPatient(patientId: String): Patient? {

@@ -33,23 +33,32 @@ class KtorRemoteMedicationDataSource(
         }
     }
 
-    override suspend fun updateMedication(patientId: String, medication: Medication): Result<Unit, BambiniError> {
-        return safeCall {
+    override suspend fun updateMedication(patientId: String, medication: Medication): Result<Medication, BambiniError> {
+        val response: Result<MedicationDto, BambiniError> = safeCall {
             httpClient.put(
-                urlString = "${config.baseUrl}/api/patients/$patientId/medications/${medication.id}"
+                urlString = "${config.baseUrl}/api/patients/$patientId/medications"
             ) {
                 setBody(medication.toMedicationDto(
                     tenantId = ""
                 ))
             }
         }
+
+        return when(response) {
+            is Result.Success -> Result.Success(response.data.toMedication())
+            is Result.Error<*> -> response
+        }
     }
 
-    override suspend fun deleteMedication(patientId: String, medicationId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteMedication(patientId: String, medication: Medication): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
-                urlString = "${config.baseUrl}/api/patients/$patientId/medications/$medicationId"
-            )
+                urlString = "${config.baseUrl}/api/patients/$patientId/medications"
+            ) {
+                setBody(medication.toMedicationDto(
+                    tenantId = ""
+                ))
+            }
         }
     }
 }

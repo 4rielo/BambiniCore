@@ -49,7 +49,7 @@ class KtorRemotePatientDataSource(
     override suspend fun updatePatient(patient: Patient): Result<Patient, BambiniError> {
         val response: Result<PatientDto, BambiniError> = safeCall {
             httpClient.put(
-                urlString = "${config.baseUrl}/api/patients/${patient.id}"
+                urlString = "${config.baseUrl}/api/patients"
             ) {
                 setBody(
                     patient.toPatientDto()
@@ -62,7 +62,7 @@ class KtorRemotePatientDataSource(
         }
     }
 
-    override suspend fun deletePatient(patientId: String): Result<Patient, BambiniError> {
+    override suspend fun deletePatient(patientId: String): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId"

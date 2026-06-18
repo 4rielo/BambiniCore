@@ -27,13 +27,16 @@ class PatientDetailRepositoryImpl(
 
     override suspend fun upsertPatientAllergy(patientId: String, allergy: Allergy): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            allergyDataSource.updateAllergy(patientId, allergy)
+            when (val result = allergyDataSource.updateAllergy(patientId, allergy)) {
+                is Result.Success -> Result.Success(Unit)
+                is Result.Error -> result
+            }
         }
     }
 
     override suspend fun deletePatientAllergy(patientId: String, allergy: Allergy): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            allergyDataSource.deleteAllergy(patientId, allergy.id)
+            allergyDataSource.deleteAllergy(patientId, allergy)
         }
     }
 
@@ -45,13 +48,16 @@ class PatientDetailRepositoryImpl(
 
     override suspend fun upsertPatientConsultation(patientId: String, consultation: Consultation): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            consultationDataSource.updateConsultation(patientId, consultation)
+            when (val result = consultationDataSource.updateConsultation(patientId, consultation)) {
+                is Result.Success -> Result.Success(Unit)
+                is Result.Error -> result
+            }
         }
     }
 
     override suspend fun deletePatientConsultation(patientId: String, consultation: Consultation): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            consultationDataSource.deleteConsultation(patientId, consultation.id)
+            consultationDataSource.deleteConsultation(patientId, consultation)
         }
     }
 
@@ -63,13 +69,16 @@ class PatientDetailRepositoryImpl(
 
     override suspend fun upsertPatientGuardian(patientId: String, guardian: Guardian): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            guardianDataSource.updateGuardian(patientId, guardian)
+            when (val result = guardianDataSource.updateGuardian(patientId, guardian)) {
+                is Result.Success -> Result.Success(Unit)
+                is Result.Error -> result
+            }
         }
     }
 
     override suspend fun deletePatientGuardian(patientId: String, guardian: Guardian): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            guardianDataSource.deleteGuardian(patientId, guardian.id)
+            guardianDataSource.deleteGuardian(patientId, guardian)
         }
     }
 
@@ -81,13 +90,16 @@ class PatientDetailRepositoryImpl(
 
     override suspend fun upsertPatientMeasurement(patientId: String, measurement: Measurement): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            measurementDataSource.updateMeasurement(patientId, measurement)
+            when (val result = measurementDataSource.updateMeasurement(patientId, measurement)) {
+                is Result.Success -> Result.Success(Unit)
+                is Result.Error -> result
+            }
         }
     }
 
     override suspend fun deletePatientMeasurement(patientId: String, measurement: Measurement): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            measurementDataSource.deleteMeasurement(patientId, measurement.id)
+            measurementDataSource.deleteMeasurement(patientId, measurement)
         }
     }
 
@@ -99,13 +111,16 @@ class PatientDetailRepositoryImpl(
 
     override suspend fun upsertPatientMedication(patientId: String, medication: Medication): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            medicationDataSource.updateMedication(patientId, medication)
+            when (val result = medicationDataSource.updateMedication(patientId, medication)) {
+                is Result.Success -> Result.Success(Unit)
+                is Result.Error -> result
+            }
         }
     }
 
     override suspend fun deletePatientMedication(patientId: String, medication: Medication): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            medicationDataSource.deleteMedication(patientId, medication.id)
+            medicationDataSource.deleteMedication(patientId, medication)
         }
     }
 
@@ -117,13 +132,16 @@ class PatientDetailRepositoryImpl(
 
     override suspend fun upsertPatientStudy(patientId: String, study: Study): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            studyDataSource.updateStudy(patientId, study)
+            when (val result = studyDataSource.updateStudy(patientId, study)) {
+                is Result.Success -> Result.Success(Unit)
+                is Result.Error -> result
+            }
         }
     }
 
     override suspend fun deletePatientStudy(patientId: String, study: Study): Result<Unit, BambiniError> {
         return withContext(repositoryDispatcher) {
-            studyDataSource.deleteStudy(patientId, study.id)
+            studyDataSource.deleteStudy(patientId, study)
         }
     }
 }

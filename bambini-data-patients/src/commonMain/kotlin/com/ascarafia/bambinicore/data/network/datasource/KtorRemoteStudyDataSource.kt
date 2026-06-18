@@ -33,23 +33,32 @@ class KtorRemoteStudyDataSource(
         }
     }
 
-    override suspend fun updateStudy(patientId: String, study: Study): Result<Unit, BambiniError> {
-        return safeCall {
+    override suspend fun updateStudy(patientId: String, study: Study): Result<Study, BambiniError> {
+        val response: Result<StudyDto, BambiniError> = safeCall {
             httpClient.put(
-                urlString = "${config.baseUrl}/api/patients/$patientId/studies/${study.id}"
+                urlString = "${config.baseUrl}/api/patients/$patientId/studies"
             ) {
                 setBody(study.toStudyDto(
                     tenantId = ""
                 ))
             }
         }
+
+        return when(response) {
+            is Result.Success -> Result.Success(response.data.toStudy())
+            is Result.Error<*> -> response
+        }
     }
 
-    override suspend fun deleteStudy(patientId: String, studyId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteStudy(patientId: String, study: Study): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
-                urlString = "${config.baseUrl}/api/patients/$patientId/studies/$studyId"
-            )
+                urlString = "${config.baseUrl}/api/patients/$patientId/studies"
+            ) {
+                setBody(study.toStudyDto(
+                    tenantId = ""
+                ))
+            }
         }
     }
 }

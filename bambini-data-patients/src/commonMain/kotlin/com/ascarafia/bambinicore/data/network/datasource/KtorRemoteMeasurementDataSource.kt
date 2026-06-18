@@ -33,23 +33,32 @@ class KtorRemoteMeasurementDataSource(
         }
     }
 
-    override suspend fun updateMeasurement(patientId: String, measurement: Measurement): Result<Unit, BambiniError> {
-        return safeCall {
+    override suspend fun updateMeasurement(patientId: String, measurement: Measurement): Result<Measurement, BambiniError> {
+        val response: Result<MeasurementDto, BambiniError> = safeCall {
             httpClient.put(
-                urlString = "${config.baseUrl}/api/patients/$patientId/measurements/${measurement.id}"
+                urlString = "${config.baseUrl}/api/patients/$patientId/measurements"
             ) {
                 setBody(measurement.toMeasurementDto(
                     tenantId = ""
                 ))
             }
         }
+
+        return when(response) {
+            is Result.Success -> Result.Success(response.data.toMeasurement())
+            is Result.Error<*> -> response
+        }
     }
 
-    override suspend fun deleteMeasurement(patientId: String, measurementId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteMeasurement(patientId: String, measurement: Measurement): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
-                urlString = "${config.baseUrl}/api/patients/$patientId/measurements/$measurementId"
-            )
+                urlString = "${config.baseUrl}/api/patients/$patientId/measurements"
+            ) {
+                setBody(measurement.toMeasurementDto(
+                    tenantId = ""
+                ))
+            }
         }
     }
 }

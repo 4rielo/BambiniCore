@@ -33,23 +33,32 @@ class KtorRemoteGuardianDataSource(
         }
     }
 
-    override suspend fun updateGuardian(patientId: String, guardian: Guardian): Result<Unit, BambiniError> {
-        return safeCall {
+    override suspend fun updateGuardian(patientId: String, guardian: Guardian): Result<Guardian, BambiniError> {
+        val response: Result<GuardianDto, BambiniError> = safeCall {
             httpClient.put(
-                urlString = "${config.baseUrl}/api/patients/$patientId/guardians/${guardian.id}"
+                urlString = "${config.baseUrl}/api/patients/$patientId/guardians"
             ) {
                 setBody(guardian.toGuardianDto(
                     tenantId = ""
                 ))
             }
         }
+
+        return when(response) {
+            is Result.Success -> Result.Success(response.data.toGuardian() )
+            is Result.Error<*> -> response
+        }
     }
 
-    override suspend fun deleteGuardian(patientId: String, guardianId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteGuardian(patientId: String, guardian: Guardian): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
-                urlString = "${config.baseUrl}/api/patients/$patientId/guardians/$guardianId"
-            )
+                urlString = "${config.baseUrl}/api/patients/$patientId/guardians"
+            ) {
+                setBody(guardian.toGuardianDto(
+                    tenantId = ""
+                ))
+            }
         }
     }
 }

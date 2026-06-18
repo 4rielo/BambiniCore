@@ -36,10 +36,10 @@ class KtorRemoteAllergyDataSource(
     override suspend fun updateAllergy(
         patientId: String,
         allergy: Allergy
-    ): Result<Unit, BambiniError> {
-        return safeCall {
+    ): Result<Allergy, BambiniError> {
+        val response: Result<AllergyDto, BambiniError> = safeCall {
             httpClient.put(
-                urlString = "${config.baseUrl}/api/patients/$patientId/allergies/${allergy.id}"
+                urlString = "${config.baseUrl}/api/patients/$patientId/allergies"
             ) {
                 setBody(allergy.toAllergyDto(
                     tenantId = "",
@@ -47,16 +47,26 @@ class KtorRemoteAllergyDataSource(
                 ))
             }
         }
+
+        return when(response) {
+            is Result.Success -> Result.Success(response.data.toAllergy() )
+            is Result.Error<*> -> response
+        }
     }
 
     override suspend fun deleteAllergy(
         patientId: String,
-        allergyId: String
+        allergy: Allergy
     ): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
-                urlString = "${config.baseUrl}/api/patients/$patientId/allergies/$allergyId"
-            )
+                urlString = "${config.baseUrl}/api/patients/$patientId/allergies"
+            ) {
+                setBody(allergy.toAllergyDto(
+                    tenantId = "",
+                    patientId = patientId
+                ))
+            }
         }
     }
 }

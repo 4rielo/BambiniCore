@@ -33,10 +33,10 @@ class KtorRemoteConsultationDataSource(
         }
     }
 
-    override suspend fun updateConsultation(patientId: String, consultation: Consultation): Result<Unit, BambiniError> {
-        return safeCall {
+    override suspend fun updateConsultation(patientId: String, consultation: Consultation): Result<Consultation, BambiniError> {
+        val response: Result<ConsultationDto, BambiniError> = safeCall {
             httpClient.put(
-                urlString = "${config.baseUrl}/api/patients/$patientId/consultations/${consultation.id}"
+                urlString = "${config.baseUrl}/api/patients/$patientId/consultations"
             ) {
                 setBody(consultation.toConsultationDto(
                     tenantId = "",
@@ -47,13 +47,26 @@ class KtorRemoteConsultationDataSource(
                 ))
             }
         }
+
+        return when(response) {
+            is Result.Success -> Result.Success(response.data.toConsultation() )
+            is Result.Error<*> -> response
+        }
     }
 
-    override suspend fun deleteConsultation(patientId: String, consultationId: String): Result<Unit, BambiniError> {
+    override suspend fun deleteConsultation(patientId: String, consultation: Consultation): Result<Unit, BambiniError> {
         return safeCall {
             httpClient.delete(
-                urlString = "${config.baseUrl}/api/patients/$patientId/consultations/$consultationId"
-            )
+                urlString = "${config.baseUrl}/api/patients/$patientId/consultations"
+            ) {
+                setBody(consultation.toConsultationDto(
+                    tenantId = "",
+                    patientId = patientId,
+                    doctorId = "", // Needs to be handled by app logic
+                    createdAt = consultation.date,
+                    updatedAt = consultation.date
+                ))
+            }
         }
     }
 }
