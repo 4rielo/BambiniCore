@@ -15,19 +15,14 @@ fun GuardianDto.toGuardian(): Guardian {
     )
 }
 
-fun Guardian.toGuardianDto(
-    tenantId: String,
-    createdAt: String? = null
-): GuardianDto {
+fun Guardian.toGuardianDto(): GuardianDto {
     return GuardianDto(
         id = id,
-        tenantId = tenantId,
         patientId = patientId,
         name = name,
         lastName = lastName,
         relationship = relationship,
         phoneNumber = phoneNumber,
         email = email,
-        createdAt = createdAt
     )
 }

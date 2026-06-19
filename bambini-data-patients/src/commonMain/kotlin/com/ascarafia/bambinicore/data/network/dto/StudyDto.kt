@@ -2,6 +2,7 @@ package com.ascarafia.bambinicore.data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 
 @Serializable
 data class StudyDto(
@@ -12,7 +13,7 @@ data class StudyDto(
     @SerialName("type") val type: String? = null,
     @SerialName("description") val description: String? = null,
     @SerialName("result") val result: String? = null,
-    @SerialName("date") val date: String? = null,
+    @SerialName("date") val date: Instant? = null,
     @SerialName("attachments") val attachments: List<String>? = null,
-    @SerialName("createdAt") val createdAt: String? = null
+    @SerialName("createdAt") val createdAt: Instant? = null
 )

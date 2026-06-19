@@ -38,9 +38,7 @@ class KtorRemoteStudyDataSource(
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/studies"
             ) {
-                setBody(study.toStudyDto(
-                    tenantId = ""
-                ))
+                setBody(study.toStudyDto())
             }
         }
 
@@ -55,9 +53,7 @@ class KtorRemoteStudyDataSource(
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/studies"
             ) {
-                setBody(study.toStudyDto(
-                    tenantId = ""
-                ))
+                setBody(study.toStudyDto())
             }
         }
     }

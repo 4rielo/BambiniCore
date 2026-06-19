@@ -2,6 +2,7 @@ package com.ascarafia.bambinicore.data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 
 @Serializable
 data class MeasurementDto(
@@ -12,6 +13,6 @@ data class MeasurementDto(
     @SerialName("type") val type: String? = null,
     @SerialName("value") val value: Double? = null,
     @SerialName("unit") val unit: String? = null,
-    @SerialName("measuredAt") val measuredAt: String? = null,
-    @SerialName("createdAt") val createdAt: String? = null
+    @SerialName("measuredAt") val measuredAt: Instant? = null,
+    @SerialName("createdAt") val createdAt: Instant? = null
 )

@@ -4,12 +4,11 @@ import kotlin.time.Clock
 import kotlin.time.Instant
 
 object DateTimeUtils {
-    fun getCurrentDateTime(): Instant {
+    fun getCurrentInstant(): Instant {
         return Clock.System.now()
     }
-
     fun getCurrentDateTimeString(): String {
-        val date = getCurrentDateTime()
+        val date = getCurrentInstant()
         return toIsoString(date)
     }
     fun toIsoString(dateTime: Instant): String {

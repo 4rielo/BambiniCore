@@ -38,9 +38,7 @@ class KtorRemoteMeasurementDataSource(
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/measurements"
             ) {
-                setBody(measurement.toMeasurementDto(
-                    tenantId = ""
-                ))
+                setBody(measurement.toMeasurementDto())
             }
         }
 
@@ -55,9 +53,7 @@ class KtorRemoteMeasurementDataSource(
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/measurements"
             ) {
-                setBody(measurement.toMeasurementDto(
-                    tenantId = ""
-                ))
+                setBody(measurement.toMeasurementDto())
             }
         }
     }

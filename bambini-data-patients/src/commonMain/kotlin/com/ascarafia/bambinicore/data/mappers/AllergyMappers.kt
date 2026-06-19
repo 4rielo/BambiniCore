@@ -6,20 +6,15 @@ import com.ascarafia.bambinicore.domain.model.Allergy
 fun AllergyDto.toAllergy(): Allergy {
     return Allergy(
         id = id.orEmpty(),
+        patientId = patientId.orEmpty(),
         description = description.orEmpty()
     )
 }
 
-fun Allergy.toAllergyDto(
-    tenantId: String,
-    patientId: String,
-    createdAt: String? = null
-): AllergyDto {
+fun Allergy.toAllergyDto(): AllergyDto {
     return AllergyDto(
         id = id,
-        tenantId = tenantId,
         patientId = patientId,
         description = description,
-        createdAt = createdAt
     )
 }

@@ -2,6 +2,7 @@ package com.ascarafia.bambinicore.data.network.dto
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlin.time.Instant
 
 @Serializable
 data class GuardianDto(
@@ -13,5 +14,5 @@ data class GuardianDto(
     @SerialName("relationship") val relationship: String? = null,
     @SerialName("phoneNumber") val phoneNumber: String? = null,
     @SerialName("email") val email: String? = null,
-    @SerialName("createdAt") val createdAt: String? = null
+    @SerialName("createdAt") val createdAt: Instant? = null
 )

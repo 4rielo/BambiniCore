@@ -38,9 +38,7 @@ class KtorRemoteGuardianDataSource(
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/guardians"
             ) {
-                setBody(guardian.toGuardianDto(
-                    tenantId = ""
-                ))
+                setBody(guardian.toGuardianDto())
             }
         }
 
@@ -55,9 +53,7 @@ class KtorRemoteGuardianDataSource(
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/guardians"
             ) {
-                setBody(guardian.toGuardianDto(
-                    tenantId = ""
-                ))
+                setBody(guardian.toGuardianDto())
             }
         }
     }

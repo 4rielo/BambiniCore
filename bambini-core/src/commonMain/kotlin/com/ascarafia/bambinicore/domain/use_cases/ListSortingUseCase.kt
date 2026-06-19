@@ -34,7 +34,7 @@ object ListSortingUseCase {
                     AddToList.LOCAL -> localListToUpdate.addNotDuplicate(matchingRemoteItem)
                     AddToList.REMOTE -> remoteListToUpdate.addNotDuplicate(localItem)
                     AddToList.LOCAL_UPDATING_TIME -> {
-                        val localLastUpdated = DateTimeUtils.getCurrentDateTime()
+                        val localLastUpdated = DateTimeUtils.getCurrentInstant()
                         localListToUpdate.addNotDuplicate( matchingRemoteItem.copy(updatedAt = localLastUpdated ) )
                     }
                     AddToList.NONE -> Unit
@@ -52,7 +52,7 @@ object ListSortingUseCase {
                     AddToList.LOCAL -> localListToUpdate.addNotDuplicate(remoteItem)
                     AddToList.REMOTE -> remoteListToUpdate.addNotDuplicate(matchingLocalItem)
                     AddToList.LOCAL_UPDATING_TIME -> {
-                        val localLastUpdated = DateTimeUtils.getCurrentDateTime()
+                        val localLastUpdated = DateTimeUtils.getCurrentInstant()
                         localListToUpdate.addNotDuplicate( remoteItem.copy(updatedAt = localLastUpdated ) )
                     }
                     AddToList.NONE -> Unit

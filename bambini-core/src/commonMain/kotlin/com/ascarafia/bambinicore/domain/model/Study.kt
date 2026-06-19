@@ -5,7 +5,6 @@ import kotlin.time.Instant
 data class Study(
     val id: String,
     val patientId: String,
-    val doctorId: String? = null,
     val type: String,
     val description: String? = null,
     val result: String? = null,

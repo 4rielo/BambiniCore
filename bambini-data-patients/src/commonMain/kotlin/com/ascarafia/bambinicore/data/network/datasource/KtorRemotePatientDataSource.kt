@@ -51,9 +51,7 @@ class KtorRemotePatientDataSource(
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients"
             ) {
-                setBody(
-                    patient.toPatientDto()
-                )
+                setBody(patient.toPatientDto())
             }
         }
         return when(response) {

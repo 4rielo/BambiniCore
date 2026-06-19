@@ -5,14 +5,6 @@ enum class GrowthChartType {
     ZSCORE
 }
 
-enum class GrowthChartMeasure {
-
-    HEIGHT,
-    WEIGHT,
-    HEAD_SIZE,
-    BMI
-}
-
 enum class GrowthChartAgeRange {
     ZERO_TO_TWO,
     TWO_TO_FIVE,

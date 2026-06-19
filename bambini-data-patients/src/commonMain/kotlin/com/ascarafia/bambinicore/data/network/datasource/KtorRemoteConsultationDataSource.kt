@@ -38,13 +38,7 @@ class KtorRemoteConsultationDataSource(
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/consultations"
             ) {
-                setBody(consultation.toConsultationDto(
-                    tenantId = "",
-                    patientId = patientId,
-                    doctorId = "", // Needs to be handled by app logic
-                    createdAt = consultation.date,
-                    updatedAt = consultation.date
-                ))
+                setBody(consultation.toConsultationDto())
             }
         }
 
@@ -59,13 +53,7 @@ class KtorRemoteConsultationDataSource(
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/consultations"
             ) {
-                setBody(consultation.toConsultationDto(
-                    tenantId = "",
-                    patientId = patientId,
-                    doctorId = "", // Needs to be handled by app logic
-                    createdAt = consultation.date,
-                    updatedAt = consultation.date
-                ))
+                setBody(consultation.toConsultationDto())
             }
         }
     }

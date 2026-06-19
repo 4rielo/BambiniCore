@@ -12,24 +12,20 @@ fun MedicationDto.toMedication(): Medication {
         name = name.orEmpty(),
         dose = dose,
         notes = notes,
-        startDate = startDate?.let { DateTimeUtils.fromIsoString(it) },
-        endDate = endDate?.let { DateTimeUtils.fromIsoString(it) }
+        startDate = startDate,
+        endDate = endDate
     )
 }
 
 fun Medication.toMedicationDto(
-    tenantId: String,
-    createdAt: Instant? = null
 ): MedicationDto {
     return MedicationDto(
         id = id,
-        tenantId = tenantId,
         patientId = patientId,
         name = name,
         dose = dose,
         notes = notes,
-        startDate = startDate?.toString(),
-        endDate = endDate?.toString(),
-        createdAt = createdAt?.toString()
+        startDate = startDate,
+        endDate = endDate,
     )
 }

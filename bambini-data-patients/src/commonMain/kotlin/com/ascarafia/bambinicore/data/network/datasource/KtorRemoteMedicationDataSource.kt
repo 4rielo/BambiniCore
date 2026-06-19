@@ -38,9 +38,7 @@ class KtorRemoteMedicationDataSource(
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/medications"
             ) {
-                setBody(medication.toMedicationDto(
-                    tenantId = ""
-                ))
+                setBody(medication.toMedicationDto())
             }
         }
 
@@ -55,9 +53,7 @@ class KtorRemoteMedicationDataSource(
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/medications"
             ) {
-                setBody(medication.toMedicationDto(
-                    tenantId = ""
-                ))
+                setBody(medication.toMedicationDto())
             }
         }
     }

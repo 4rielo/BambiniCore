@@ -41,10 +41,7 @@ class KtorRemoteAllergyDataSource(
             httpClient.put(
                 urlString = "${config.baseUrl}/api/patients/$patientId/allergies"
             ) {
-                setBody(allergy.toAllergyDto(
-                    tenantId = "",
-                    patientId = patientId
-                ))
+                setBody(allergy.toAllergyDto())
             }
         }
 
@@ -62,10 +59,7 @@ class KtorRemoteAllergyDataSource(
             httpClient.delete(
                 urlString = "${config.baseUrl}/api/patients/$patientId/allergies"
             ) {
-                setBody(allergy.toAllergyDto(
-                    tenantId = "",
-                    patientId = patientId
-                ))
+                setBody(allergy.toAllergyDto())
             }
         }
     }
