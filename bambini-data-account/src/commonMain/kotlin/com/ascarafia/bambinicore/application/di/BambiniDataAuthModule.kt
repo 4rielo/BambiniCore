@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 val bambiniAuthModule: List<Module> get() = listOf<Module>(
     authRepositoryModule, authDataSourceModule
-) + bambiniNetworkModule
+) //+ bambiniNetworkModule
 
 val authRepositoryModule: Module = module {
     single(named("AuthIODispatcher")) {

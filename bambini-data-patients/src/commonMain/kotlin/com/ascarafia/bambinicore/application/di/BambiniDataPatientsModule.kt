@@ -16,7 +16,7 @@ import org.koin.dsl.module
 
 val bambiniDataPatientsModule: List<Module> get() = listOf<Module>(
     patientsRepositoryModule, patientsDataSourceModule
-) + bambiniNetworkModule
+) //+ bambiniNetworkModule
 
 val patientsRepositoryModule: Module = module {
     single(named("IODispatcher")) {

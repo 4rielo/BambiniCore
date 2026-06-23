@@ -14,7 +14,7 @@ version = providers.gradleProperty("VERSION_NAME").get()
 
 kotlin {
     androidLibrary {
-        namespace = "com.ascarafia.bambini"
+        namespace = "com.ascarafia.bambini.core"
         compileSdk = libs.versions.android.compileSdk.get().toInt()
         minSdk = libs.versions.android.minSdk.get().toInt()
 

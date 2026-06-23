@@ -2,7 +2,7 @@
 agp = "8.13.2"
 
 android-compileSdk = "36"
-android-minSdk = "30"
+android-minSdk = "29"
 android-targetSdk = "36"
 
 coreKtx = "1.15.0"
