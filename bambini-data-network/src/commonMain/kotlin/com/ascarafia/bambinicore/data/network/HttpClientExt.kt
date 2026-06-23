@@ -1,5 +1,6 @@
 package com.ascarafia.bambinicore.data.network
 
+import com.ascarafia.bambinicore.data.util.AuthEventHandler
 import com.ascarafia.bambinicore.domain.model.Result
 import com.ascarafia.bambinicore.domain.model.error.BambiniError
 import com.ascarafia.bambinicore.domain.model.error.DataError
@@ -52,7 +53,10 @@ suspend inline fun <reified T> responseToResult(
             }
 
             val error = when(response.status.value) {
-                401 -> DataError.Remote.UNAUTHORIZED
+                401 -> {
+                    AuthEventHandler.onUnauthorized()
+                    DataError.Remote.UNAUTHORIZED
+                }
                 404 -> DataError.Remote.NOT_FOUND
                 408 -> DataError.Remote.REQUEST_TIMEOUT
                 429 -> DataError.Remote.TOO_MANY_REQUESTS
