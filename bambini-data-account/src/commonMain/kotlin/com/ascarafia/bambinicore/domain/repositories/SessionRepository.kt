@@ -19,5 +19,7 @@ interface SessionRepository {
     suspend fun deleteAccount(email: String, userId: String): EmptyResult<BambiniError>
     suspend fun confirmDeleteAccount(token: String): EmptyResult<BambiniError>
     suspend fun verifyEmail(token: String): EmptyResult<BambiniError>
+    suspend fun getTermsAndConditions(): Result<String, BambiniError>
+    suspend fun getPrivacyPolicy(): Result<String, BambiniError>
     fun refreshTokenFailed()
 }

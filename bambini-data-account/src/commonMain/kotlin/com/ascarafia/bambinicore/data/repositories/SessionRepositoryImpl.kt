@@ -126,6 +126,14 @@ class SessionRepositoryImpl(
         return@withContext remoteAuthDataSource.verifyEmail(token)
     }
 
+    override suspend fun getTermsAndConditions(): Result<String, BambiniError> = withContext(repositoryDispatcher) {
+        return@withContext remoteAuthDataSource.getTermsAndConditions()
+    }
+
+    override suspend fun getPrivacyPolicy(): Result<String, BambiniError> = withContext(repositoryDispatcher) {
+        return@withContext remoteAuthDataSource.getPrivacyPolicy()
+    }
+
 
     override fun refreshTokenFailed() {
         refreshTokenJob?.cancel()

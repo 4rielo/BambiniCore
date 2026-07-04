@@ -170,4 +170,20 @@ class KtorAuthDataSource(
             )
         }
     }
+
+    override suspend fun getTermsAndConditions(): Result<String, BambiniError> {
+        return safeCall {
+            httpClient.get (
+                urlString = "${config.baseUrl}/api/auth/terms-and-conditions",
+            )
+        }
+    }
+
+    override suspend fun getPrivacyPolicy(): Result<String, BambiniError> {
+        return safeCall {
+            httpClient.get (
+                urlString = "${config.baseUrl}/api/auth/privacy-policy",
+            )
+        }
+    }
 }
