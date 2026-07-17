@@ -21,6 +21,7 @@ fun UserDto.toAccount(): Account {
         } catch (e: Exception) {
             UserRole.PARENT
         },
+        accountType = accountType.orEmpty(),
         isActive = isActive ?: false,
         createdAt = createdAt?.let { DateTimeUtils.fromIsoString(it) } ?: Instant.DISTANT_PAST,
         updatedAt = updatedAt?.let { DateTimeUtils.fromIsoString(it) } ?: Instant.DISTANT_PAST,
@@ -39,6 +40,7 @@ fun Account.toUserDto(): UserDto {
         lastName = lastName,
         userPhotoUrl = userPhotoUrl,
         role = role.name,
+        accountType = accountType,
         isActive = isActive,
         createdAt = createdAt.toString(),
         updatedAt = updatedAt.toString(),

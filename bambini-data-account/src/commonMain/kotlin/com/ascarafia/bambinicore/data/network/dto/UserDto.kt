@@ -14,6 +14,7 @@ data class UserDto(
     @SerialName("lastName") val lastName: String? = null,
     @SerialName("userPhotoUrl") val userPhotoUrl: String? = null,
     @SerialName("role") val role: String? = null,
+    @SerialName("accountType") val accountType: String? = null,
     @SerialName("isActive") val isActive: Boolean? = null,
     @SerialName("createdAt") val createdAt: String? = null,
     @SerialName("updatedAt") val updatedAt: String? = null,

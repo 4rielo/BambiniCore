@@ -12,6 +12,7 @@ data class Account(
     val lastName: String,
     val userPhotoUrl: String? = null,
     val role: UserRole,
+    val accountType: String,
     val isActive: Boolean,
     val createdAt: Instant,
     val updatedAt: Instant,
